@@ -1,0 +1,15 @@
+// home page
+
+// Title
+
+// div 1
+// Top 10, filter checklist, option to select All or HBCU
+
+// div 2
+// Map
+
+// div 3
+// Median scores 
+
+//div 4 
+// median scores bar chart 
