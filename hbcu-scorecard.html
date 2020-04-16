@@ -1,27 +1,38 @@
 <html>
     <title></title>
     <head>
-        <link rel="stylesheet" type="text/css" href="scorecard.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/scorecard.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://d3js.org/d3.v5.min.js"></script>
     </head>
     <header>Historically Black Colleges and Universities(HBCU) Scorecard</header>
+   
     <div id='list-div'>
         Top 10
+        <script src="/javascript/list.js"></script>
     </div>
+    
     <div id='map-div'>
         interactive map
     </div>
+
     <div id='medianscore'>
+
         <div id='hbcuscore'>
             HBCU<br> median score
+            <script src="/javascript/hbcu.js"></script>
         </div>
         <div id='otherscore'>
             Non-HBCU median score 
-        </div>
+            </div>
         <div id='bar-div'>
             Bar graph
         </div>
+
     </div>
 
+<script>
+    show_list()
+    compute_hbcu()
+</script>
 </html>
