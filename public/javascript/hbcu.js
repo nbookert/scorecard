@@ -1,7 +1,7 @@
+var hbcu =0;
+var other=0;
 function compute_hbcu(){
     let sdata=[]
-    var hbcu =0;
-    var other=0;
     d3.csv("data/hbcus-list.csv").then(function(data){
         data.forEach(function(d) {
             d.years=+d.years

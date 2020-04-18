@@ -26,17 +26,17 @@ header{
 #hbcuscore{
     float: left;
     width:50%;
-    height:50%;
+    height:20%;
     /* background-color: lightskyblue; */
 }
 #otherscore{
     float:right;
     width:50%;
-    height:50%;
+    height:20%;
     /* background-color: lightpink; */
 }
 #bar-div{
-    height:50%;
+    height:80%;
     width:100%;
     /* background-color: lightslategray; */
 }

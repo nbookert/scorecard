@@ -2,6 +2,7 @@
     <title></title>
     <head>
         <link rel="stylesheet" type="text/css" href="/stylesheets/scorecard.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/bar.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://d3js.org/d3.v5.min.js"></script>
     </head>
@@ -19,7 +20,7 @@
     <div id='medianscore'>
 
         <div id='hbcuscore'>
-            HBCU<br> median score
+            HBCU median score
             <script src="/javascript/hbcu.js"></script>
         </div>
         <div id='otherscore'>
@@ -27,12 +28,15 @@
             </div>
         <div id='bar-div'>
             Bar graph
+            <script src='/javascript/stacked-bar.js'></script>
         </div>
 
     </div>
 
 <script>
-    show_list()
-    compute_hbcu()
+    show_list();
+    compute_hbcu();
+    stackedbarchart();
+    // bar.highlightBar();
 </script>
 </html>
