@@ -9,10 +9,8 @@ function stackedbarchart(){
 
     let svg = d3.select("#bar-div").append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+        .attr("height", height + margin.top + margin.bottom);
+        
     let x = d3.scaleBand()
         .rangeRound([0, width])
         .padding(0.1);
@@ -22,111 +20,87 @@ function stackedbarchart(){
 
     let xAxis = d3.axisBottom(x);
     let yAxis = d3.axisLeft(y);
+    let color = d3.schemeSet1;
+    let max_score=0;
+    let score =0;
 
-    let car_data = [];
-    let median_value = [];
-
-    this.highlightBar = function(name){
-        d3.select("#" + name).style("fill", "red");
-        // show the label
-        // d3.select("#bar" + i).text(d.value);
-    }
-    this.dehighlightBar = function(name){
-        d3.select("#" + name).style("fill", "steelblue");
-        // show the label
-        // d3.select("#bar" + i).text(d.value);
-    }
-    d3.csv("data/a1-cars.csv").then(function (data) {
-        let car_map = new Map();
-
+    d3.csv("data/hbcus-list.csv").then(function (data) {
+        
+        let keys = data.columns.slice(1);
+        
         data.forEach(function (d) {
-            let cnt = car_map.get(d.Manufacturer);
-            if (cnt == undefined)
-                cnt = 1;
-            else
-                cnt += 1;
-            car_map.set(d.Manufacturer, cnt);
+            d.lat= parseFloat(d.lat);
+            d.lon = parseFloat(d.lon);
+            d.years = +d.years;
+
+            if(d.lon < -83 && d.lon > -85){
+                score = d.years + Math.abs(d.lon) + d.lat;
+                if(score > max_score){
+                    max_score=score;
+                }
+            }
         });
 
-        let iterator = car_map.keys();
-
-        for (let i = 0; i < car_map.size; i++) {
-            let key = iterator.next().value;
-            car_data.push({"manufacturer": key, "value": +car_map.get(key)})
-        }
-
-        x.domain(car_data.map(function (d) {
-            return d.manufacturer;
-        }));
-        y.domain([0, d3.max(car_data, function (d) {
-            return d.value;
-        })]);
+        x.domain(data.map(function(d){return d.place}));
+        y.domain([0, max_score]).nice();
 
         svg.append("g")
-            .attr("class", "x axis")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .append("g")
+        .selectAll("g")
+        .data(d3.stack().keys(keys)(data))
+        .enter().append("g")
+        .attr("fill",function (d, i) {
+            return color[i];
+        })
+        .selectAll("rect")
+        .data(function(d){
+            return d;
+        })
+        .enter().append("rect")
+        .attr("x",function(d){return x(d.data.place);})
+        .attr("y",function(d){console.log(y(d[1])); return y(d[1])})
+        .attr("height", function(d){return y(d[0]-y(d[1])); })
+        .attr("weight",x.bandwidth())
+
+        svg.append("g")
+            .attr("class", "axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
-            .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", "-.50em")
-            .attr("transform", "rotate(-90)");
+            .call(xAxis);
+        
 
         svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis)
+            .attr("class", "axis")
+            .call(yAxis.ticks(null, "s"))
             .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", ".71em")
-            .style("text-anchor", "end")
-            .text("Count");
+            .attr("x", 2)
+            .attr("y", y(y.ticks().pop()) + 0.5)
+            .attr("dy", "0.32em")
+            .attr("fill", "#000")
+            .attr("font-weight", "bold")
+            .attr("text-anchor", "start");
+      
+        var legend = svg.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 10)
+            .attr("text-anchor", "end")
+          .selectAll("g")
+          .data(keys.slice().reverse())
+          .enter().append("g")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+      
+        legend.append("rect")
+            .attr("x", width - 19)
+            .attr("width", 19)
+            .attr("height", 19)
+            .attr("fill",color);
+      
+        legend.append("text")
+            .attr("x", width - 24)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
+            .text(function(d) { return d; });
 
-        let bars = svg.selectAll(".bar")
-            .data(car_data)
-            .enter().append("g")
-            .attr("class", "bar")
-            .attr("transform", function (d) {
-                return "translate(" + x(d.manufacturer) + ", " + y(d.value) + ")";
-            });
-
-        bars.append("rect")
-            .attr("id", function(d){
-                return d.manufacturer;
-            })
-        // .attr("x", function(d) { return x(d.manufacturer); })
-            .attr("width", x.bandwidth())
-            // .attr("y", function(d) { return y(d.value); })
-            .attr("height", function (d) {
-                return height - y(d.value);
-            })
-            .on("mouseover", function (d, i) {
-                highlightBar(d.manufacturer);
-                // highlight(d.manufacturer);
-            })
-            .on("mouseleave", function (d, i) {
-                dehighlightBar(d.manufacturer);
-                // dehighlight();
-                // hide the label
-            });
-
-
-        bars.append("text")
-            .text(function (d) {
-                // return d.value;
-            })
-            .attr("id", function (d, i) {
-                return "bar" + i;
-            })
-            // .attr("x", function(d){
-            //     return x(d.manufacturer);
-            // })
-            // .attr("y", function(d) { return y(d.value); })
-            .style("text-anchor", "end")
-            .attr("dx", "-.1em")
-            .attr("dy", "1.5em")
-            .attr("transform", "rotate(-90)")
-        // .style("visibility", "hidden");
 
     })
         .catch(function (error) {

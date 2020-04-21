@@ -1,102 +1,101 @@
-years,place,lat,lon
-4,Alabama A&M University,34.7846326,-86.572031
-4,Alabama State University,32.3636619,-86.2940544
-4,Albany State University,31.5690317,-84.1404238
-4,Alcorn State University,31.8742035,-91.13729239999999
-4,Allen University,34.010694,-81.020246
-4,American Baptist College,36.202408,-86.7898667
-4,Arkansas Baptist College,34.7350599,-92.2895423
-4,Benedict College,34.012867,-81.020461
-4,Bennett College for Women,36.067872,-79.77921599999999
-4,Bethune-Cookman University,29.2110102,-81.03157499999999
-2,Bishop State Community College,30.696199,-88.055684
-4,Bluefield State College,37.2672311,-81.2374456
-4,Bowie State University,39.0192914,-76.7594039
-4,Central State University,39.7167824,-83.8764702
-4,Cheyney University of Pennsylvania,39.933506,-75.5254286
-4,Claflin University,33.4988288,-80.85322510000002
-4,Clark Atlanta University,33.7515658,-84.4112315
-2,Clinton Junior College,34.9134144,-81.0429245
-2,Coahoma Community College,34.2533098,-90.56897120000001
-4,Concordia College - Alabama,33.140592,-87.104708
-4,Coppin State University,39.3126142,-76.65790559999999
-4,Delaware State University,39.186272,-75.542267
-2,Denmark Technical College,33.3118718,-81.1257498
-4,Dillard University,29.9966395,-90.0662662
-4,Edward Waters College,30.3436839,-81.6836991
-4,Elizabeth City State University,36.281065,-76.2139598
-4,Fayetteville State University,35.0742206,-78.8924896
-4,Fisk University,36.167211,-86.803796
-4,Florida A&M University,30.4238939,-84.2874453
-4,Florida Memorial University,25.9190077,-80.2712878
-4,Fort Valley State University,32.5345289,-83.8963575
-2,Gadsden State Community College,33.993977,-85.99078399999999
-4,Grambling State University,32.5212912,-92.71929569999999
-2,Trenholm State Technical College,32.350211,-86.342416
-4,Hampton University,37.0228392,-76.3343603
-4,Harris-Stowe State University,38.6332575,-90.2241738
-4,Howard University,38.922684,-77.019599
-4,Huston-Tillotson University,30.2645512,-97.7223212
-4,Interdenominational Theological Center,33.754222,-84.409469
-2,J.F. Drake State Technical College,34.7717663,-86.573315
-4,Jackson State University,32.2968847,-90.2063965
-4,Jarvis Christian College,32.5891917,-95.1797935
-4,Johnson C. Smith University,35.2427192,-80.85621239999999
-4,Kentucky State University,38.2003,-84.8558
-4,Lane College,35.62777500000001,-88.80611329999999
-4,Langston University,35.9459622,-97.262907
-2,Lawson State Community College - Birmingham,33.4506233,-86.8891388
-4,LeMoyne-Owen College,35.1180562,-90.0344386
-4,Lincoln University - Missouri,38.563097,-92.171230
-4,Lincoln University of Pennsylvania,39.807500,-75.927273
-4,Livingstone College,35.671441,-80.484675
-4,Meharry Medical College,36.1670761,-86.8069451
-4,Miles College,33.480831,-86.90826799999999
-4,Mississippi Valley State University,33.512823,-90.341736
-4,Morehouse College,33.742784,-84.411958
-4,Morehouse School of Medicine,33.743087,-84.412001
-4,Morgan State University,39.3437959,-76.5843847
-4,Morris College,33.938031,-80.347003
-4,Norfolk State University,36.8480161,-76.262085
-4,North Carolina A&T State University,36.0741294,-79.7748384
-4,North Carolina Central University,35.97298200000001,-78.8962889
-4,Oakwood University,34.751841,-86.655845
-4,Paine College,33.4695551,-81.9932536
-4,Paul Quinn College,32.6804373,-96.75584889999999
-4,Philander Smith College,34.7371492,-92.28296929999999
-4,Prairie View A & M University,30.093908,-95.989800
-4,Rust College,34.7764601,-89.4476005
-4,Saint Augustine's University,35.7876962,-78.6188766
-4,Savannah State University,32.0245213,-81.0626367
-4,Selma University,32.4204999,-87.03489990000001
-4,Shaw University,35.771187,-78.6377146
-2,Shelton State Community College,33.120633,-87.561464
-2,Shorter College,34.7592275,-92.2604236
-4,Simmons College - Kentucky,38.2394955,-85.7648298
-4,South Carolina State University,33.4983441,-80.85014919999999
-4,Southern University & A&M College,30.5267645,-91.1935768
-4,Southern University at New Orleans,30.0259133,-90.0449055
-2,Southern University at Shreveport,32.544248,-93.8346073
-2,Southwestern Christian College,32.7353423,-96.28573209999999
-4,Spelman College,33.7463597,-84.41229340000001
-2,St. Philip's College,29.41408629999999,-98.45482030000001
-4,Stillman College,33.1982647,-87.5859218
-4,Talladega College,33.4327519,-86.1135613
-4,Tennessee State University,36.1668224,-86.8275815
-4,Texas College,32.374895,-95.312516
-4,Texas Southern University,29.7217625,-95.3606121
-4,Tougaloo College,32.4048131,-90.1607274
-4,Tuskegee University,32.430678,-85.7072853
-4,University of Arkansas at Pine Bluff,34.2468716,-92.0213392
-4,University of Maryland Eastern Shore,38.2178752,-75.6910982
-2,University of the District of Columbia,38.944677,-77.06562989999999
-4,Virginia State University,37.2384613,-77.41987209999999
-4,Virginia Union University,37.5625916,-77.4514696
-4,Virginia University of Lynchburg,37.3952218,-79.15157219999999
-4,Voorhees College,33.3072977,-81.13000880000001
-4,West Virginia State University,38.3789586,-81.7665882
-4,Wilberforce University,39.710638,-83.878929
-4,Wiley College,32.5384868,-94.37518709999999
-4,Winston-Salem State University,36.089874,-80.2251168
-4,Xavier University of Louisiana,29.963863,-90.107084
-
+place,years,lat,lon
+Alabama A&M University,4,34.7846326,-86.572031
+Alabama State University,4,32.3636619,-86.2940544
+Albany State University,4,31.5690317,-84.1404238
+Alcorn State University,4,31.8742035,-91.1372924
+Allen University,4,34.010694,-81.020246
+American Baptist College,4,36.202408,-86.7898667
+Arkansas Baptist College,4,34.7350599,-92.2895423
+Benedict College,4,34.012867,-81.020461
+Bennett College for Women,4,36.067872,-79.779216
+Bethune-Cookman University,4,29.2110102,-81.031575
+Bishop State Community College,2,30.696199,-88.055684
+Bluefield State College,4,37.2672311,-81.2374456
+Bowie State University,4,39.0192914,-76.7594039
+Central State University,4,39.7167824,-83.8764702
+Cheyney University of Pennsylvania,4,39.933506,-75.5254286
+Claflin University,4,33.4988288,-80.8532251
+Clark Atlanta University,4,33.7515658,-84.4112315
+Clinton Junior College,2,34.9134144,-81.0429245
+Coahoma Community College,2,34.2533098,-90.5689712
+Concordia College - Alabama,4,33.140592,-87.104708
+Coppin State University,4,39.3126142,-76.6579056
+Delaware State University,4,39.186272,-75.542267
+Denmark Technical College,2,33.3118718,-81.1257498
+Dillard University,4,29.9966395,-90.0662662
+Edward Waters College,4,30.3436839,-81.6836991
+Elizabeth City State University,4,36.281065,-76.2139598
+Fayetteville State University,4,35.0742206,-78.8924896
+Fisk University,4,36.167211,-86.803796
+Florida A&M University,4,30.4238939,-84.2874453
+Florida Memorial University,4,25.9190077,-80.2712878
+Fort Valley State University,4,32.5345289,-83.8963575
+Gadsden State Community College,2,33.993977,-85.990784
+Grambling State University,4,32.5212912,-92.7192957
+Trenholm State Technical College,2,32.350211,-86.342416
+Hampton University,4,37.0228392,-76.3343603
+Harris-Stowe State University,4,38.6332575,-90.2241738
+Howard University,4,38.922684,-77.019599
+Huston-Tillotson University,4,30.2645512,-97.7223212
+Interdenominational Theological Center,4,33.754222,-84.409469
+J.F. Drake State Technical College,2,34.7717663,-86.573315
+Jackson State University,4,32.2968847,-90.2063965
+Jarvis Christian College,4,32.5891917,-95.1797935
+Johnson C. Smith University,4,35.2427192,-80.8562124
+Kentucky State University,4,38.2003,-84.8558
+Lane College,4,35.627775,-88.8061133
+Langston University,4,35.9459622,-97.262907
+Lawson State Community College - Birmingham,2,33.4506233,-86.8891388
+LeMoyne-Owen College,4,35.1180562,-90.0344386
+Lincoln University - Missouri,4,38.563097,-92.17123
+Lincoln University of Pennsylvania,4,39.8075,-75.927273
+Livingstone College,4,35.671441,-80.484675
+Meharry Medical College,4,36.1670761,-86.8069451
+Miles College,4,33.480831,-86.908268
+Mississippi Valley State University,4,33.512823,-90.341736
+Morehouse College,4,33.742784,-84.411958
+Morehouse School of Medicine,4,33.743087,-84.412001
+Morgan State University,4,39.3437959,-76.5843847
+Morris College,4,33.938031,-80.347003
+Norfolk State University,4,36.8480161,-76.262085
+North Carolina A&T State University,4,36.0741294,-79.7748384
+North Carolina Central University,4,35.972982,-78.8962889
+Oakwood University,4,34.751841,-86.655845
+Paine College,4,33.4695551,-81.9932536
+Paul Quinn College,4,32.6804373,-96.7558489
+Philander Smith College,4,34.7371492,-92.2829693
+Prairie View A & M University,4,30.093908,-95.9898
+Rust College,4,34.7764601,-89.4476005
+Saint Augustine's University,4,35.7876962,-78.6188766
+Savannah State University,4,32.0245213,-81.0626367
+Selma University,4,32.4204999,-87.0348999
+Shaw University,4,35.771187,-78.6377146
+Shelton State Community College,2,33.120633,-87.561464
+Shorter College,2,34.7592275,-92.2604236
+Simmons College - Kentucky,4,38.2394955,-85.7648298
+South Carolina State University,4,33.4983441,-80.8501492
+Southern University & A&M College,4,30.5267645,-91.1935768
+Southern University at New Orleans,4,30.0259133,-90.0449055
+Southern University at Shreveport,2,32.544248,-93.8346073
+Southwestern Christian College,2,32.7353423,-96.2857321
+Spelman College,4,33.7463597,-84.4122934
+St. Philip's College,2,29.4140863,-98.4548203
+Stillman College,4,33.1982647,-87.5859218
+Talladega College,4,33.4327519,-86.1135613
+Tennessee State University,4,36.1668224,-86.8275815
+Texas College,4,32.374895,-95.312516
+Texas Southern University,4,29.7217625,-95.3606121
+Tougaloo College,4,32.4048131,-90.1607274
+Tuskegee University,4,32.430678,-85.7072853
+University of Arkansas at Pine Bluff,4,34.2468716,-92.0213392
+University of Maryland Eastern Shore,4,38.2178752,-75.6910982
+University of the District of Columbia,2,38.944677,-77.0656299
+Virginia State University,4,37.2384613,-77.4198721
+Virginia Union University,4,37.5625916,-77.4514696
+Virginia University of Lynchburg,4,37.3952218,-79.1515722
+Voorhees College,4,33.3072977,-81.1300088
+West Virginia State University,4,38.3789586,-81.7665882
+Wilberforce University,4,39.710638,-83.878929
+Wiley College,4,32.5384868,-94.3751871
+Winston-Salem State University,4,36.089874,-80.2251168
+Xavier University of Louisiana,4,29.963863,-90.107084

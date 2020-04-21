@@ -10,6 +10,7 @@ const server = app.listen(3000, () => {
 
 router.get('/', function(req,res){
   res.sendFile(path.join(__dirname+'/hbcu-scorecard.html'));
+    
 });
 
 app.use('/',router)
