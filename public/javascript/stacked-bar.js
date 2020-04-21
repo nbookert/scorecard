@@ -39,18 +39,16 @@ function stackedbarchart(){
                     max_score=score;
                 }
         });
-
-    let color = d3.scaleOrdinal(d3.schemeSet1)
-                // .range(d3.schemeSet1[keys.length()]);
+    let color = d3.scaleOrdinal(d3.schemeBuPu[3]);
+        
         x.domain(data.map(function(d){return d.place}));
         y.domain([0, max_score]).nice();
-        // color.domain(keys);
 
         svg.append("g")
         .selectAll("g")
         .data(d3.stack().keys(keys)(data))
         .enter().append("g")
-        .attr("fill",function(d) { return color(d);})
+        .attr("fill",color)
         .selectAll("rect")
         .data(function(d){
             return d;
@@ -83,7 +81,7 @@ function stackedbarchart(){
 
         // draw legend
         let legend = svg.selectAll(".legend")
-        .data(keys.slice().reverse())
+        .data(keys.slice())
         .enter().append("g")
         .attr("class", "legend")
         .attr("transform", function(d, i) {return "translate(0," + i * 20 + ")"; });
@@ -101,7 +99,7 @@ function stackedbarchart(){
             .attr("y", 9)
             .attr("dy", ".35em")
             .style("text-anchor", "end")
-            .text(function(d) { return d;})
+            .text(function(d) {return d;})
 
     })
         .catch(function (error) {
