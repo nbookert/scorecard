@@ -9,8 +9,10 @@ function stackedbarchart(){
 
     let svg = d3.select("#bar-div").append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
-        
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        // .append("g")
     let x = d3.scaleBand()
         .rangeRound([0, width])
         .paddingInner(0.05);
@@ -20,7 +22,6 @@ function stackedbarchart(){
 
     let xAxis = d3.axisBottom(x);
     let yAxis = d3.axisLeft(y);
-    let color = d3.scaleOrdinal(d3.schemeSet1);
     let max_score=0;
     let score =0;
 
@@ -39,13 +40,13 @@ function stackedbarchart(){
                 }
         });
 
+    let color = d3.scaleOrdinal(d3.schemeSet1)
+                // .range(d3.schemeSet1[keys.length()]);
         x.domain(data.map(function(d){return d.place}));
         y.domain([0, max_score]).nice();
         // color.domain(keys);
 
         svg.append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        .append("g")
         .selectAll("g")
         .data(d3.stack().keys(keys)(data))
         .enter().append("g")
@@ -60,13 +61,14 @@ function stackedbarchart(){
         .attr("height", function(d){return y(d[0])-y(d[1]); })
         .attr("width",x.bandwidth())
 
+
         svg.append("g")
             .attr("class", "xaxis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis)
             .selectAll("text")
-                .style("text-anchor","start")
-                .attr("transform","rotate(45)");
+            .style("text-anchor","start")
+            .attr("transform","rotate(45)");
 
         svg.append("g")
             .attr("class", "yaxis")
@@ -79,9 +81,8 @@ function stackedbarchart(){
             .attr("font-weight", "bold")
             .attr("text-anchor", "start");
 
-            // draw legend
+        // draw legend
         let legend = svg.selectAll(".legend")
-        // .data(color.domain())
         .data(keys.slice().reverse())
         .enter().append("g")
         .attr("class", "legend")
