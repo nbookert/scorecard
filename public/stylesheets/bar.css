@@ -1,4 +1,4 @@
-
+/* 
 .bar {
     fill: steelblue;
 }
@@ -21,4 +21,7 @@
 .bar text {
     fill: white;
     font: 12px sans-serif;
+} */
+.axis .domain {
+    display: none;
 }
