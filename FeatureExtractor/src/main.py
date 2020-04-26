@@ -3,6 +3,7 @@ from sklearn.feature_selection import VarianceThreshold
 from sklearn.preprocessing import normalize
 
 THRESHOLD = 0.0000000005
+column_number = []
 
 def filterColumns(column_names, selected_columns):
     i = 0
@@ -11,6 +12,7 @@ def filterColumns(column_names, selected_columns):
     for i in range(len(column_names)):
         if selected_columns[i] == True:
             temp.append(column_names[i])
+            column_number.append(i)
         i += 1
 
     return temp
@@ -33,7 +35,7 @@ if __name__ == "__main__":
     db = MongoDBConnect()
 
     # Get the all the HBCUS from the database
-    samples = db.getHBCUs()
+    samples = db.get_HBCUs()
 
     # Normalize values
     samples = normalize(samples, norm="max")
@@ -46,33 +48,57 @@ if __name__ == "__main__":
     output = selector.transform(samples)
 
     #Get the institution names, column names, and selected columns
-    names = db.getHBCUNames()
-    column_names = db.getColumnNames()
+    institution_names = db.getHBCUNames()
+    column_names = db.get_variable_code()
     selected_columns = list(selector.get_support())
 
     #Filter out unused columns
     column_names = filterColumns(column_names, selected_columns)
 
-    print("Number of Institutions: " + str(len(samples)))
-    print("Threshold: " + str(THRESHOLD))
-    print("Original Number of Variables: " + str(len(samples[0])))
-    print("Selected Number of Variables: " + str(len(output[0])))
-    print("\n")
+    w = open("selected_columns.txt", "w")
+    i = 0
+
+    for i in range(len(column_names)):
+        w.write(str(column_number[i]) + ": " + column_names[i] + "\n")
+    w.close()
+
+    print("Number of Institutions: " + str(len(samples)) + "\n")
+    print("Threshold: " + str(THRESHOLD) + "\n")
+    print("Original Number of Variables: " + str(len(samples[0])) + "\n")
+    print("Selected Number of Variables: " + str(len(output[0])) + "\n")
 
     scores = calculate_scores(output)
-    scores_dict = {}
+    # scores_dict = {}
+    #
+    # # Sort the scores
+    # i = 0
+    # for i in range(len(names)):
+    #     scores_dict[names[i]] = scores[i]
+    #     i += 1
+    #
+    # sorted_scores_dict = {k: v for k, v in sorted(scores_dict.items(), key=lambda item: item[1], reverse=True)}
+
+    w = open("scores.csv", "w")
+
+    w.write("Institution Name")
+    w.write(",Cumulative Score")
+
+    for variable in column_names:
+        w.write("," + variable)
+
+    w.write("\n")
 
     i = 0
-    for i in range(len(names)):
-        scores_dict[names[i]] = scores[i]
+    for i in range(len(institution_names)):
+
+        w.write(institution_names[i] + "," + str(scores[i]))
+
+        for value in output[i]:
+            w.write("," + str(value))
+
+        w.write("\n")
         i += 1
 
-    sorted_scores_dict = {k: v for k, v in sorted(scores_dict.items(), key=lambda item: item[1], reverse=True)}
-
-    i = 1
-
-    for key, value in sorted_scores_dict.items():
-        print(str(i) + " " + f'{key:50}: {value:10.2f}')
-        i += 1
+    w.close()
 
 

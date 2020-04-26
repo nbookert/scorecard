@@ -1,0 +1,72 @@
+var express = require('express');
+var router = express.Router();
+
+var MongoClient = require('mongodb').MongoClient;
+
+/*Get from class collection */
+router.get('/mean-values', function(req, res, next) {
+    MongoClient.connect("mongodb://localhost", function(err, client){
+        let db = client.db("finalproject");
+        db.collection('institution1819', function(err, collection) {
+            collection.find({},{projection: {ADM_RATE: 1, ACTCMMID: 1, UGDS: 1, LATITUDE: 1, LONGITUDE: 1, C150_4: 1, TUITIONFEE_IN: 1,
+                    INSTNM: 1, TUITIONFEE_OUT: 1, CONTROL: 1, SAT_AVG: 1, INSTURL: 1}}).toArray(function(err, result) {
+                if (err) {
+                    console.log(err);
+                    res.status(500);
+                    res.send();
+                }
+
+                let totalValues = {ACT_AVG: 0, ADM_RATE: 0, GRAD_RATE: 0, SAT_AVG: 0, TUITIONFEE_IN: 0, TUITIONFEE_OUT: 0, ENROLL: 0};
+                let participantInst = {ACT_AVG: 0, ADM_RATE: 0, GRAD_RATE: 0, SAT_AVG: 0, TUITIONFEE_IN: 0, TUITIONFEE_OUT: 0, ENROLL: 0};
+
+                for (let i = 0; i < result.length; i++) {
+                    if (Number(Number(result[i].ACTCMMID))) {
+                        totalValues.ACT_AVG += Number(result[i].ACTCMMID);
+                        participantInst.ACT_AVG += 1
+                    }
+
+                    if (Number(Number(result[i].ADM_RATE))) {
+                        totalValues.ADM_RATE += Number(result[i].ADM_RATE);
+                        participantInst.ADM_RATE += 1
+                    }
+
+                    if (Number(Number(result[i].C150_4))) {
+                        totalValues.GRAD_RATE += Number(result[i].C150_4);
+                        participantInst.GRAD_RATE += 1
+                    }
+
+                    if (Number(Number(result[i].SAT_AVG))) {
+                        totalValues.SAT_AVG += Number(result[i].SAT_AVG);
+                        participantInst.SAT_AVG += 1
+                    }
+
+                    if (Number(Number(result[i].TUITIONFEE_IN))) {
+                        totalValues.TUITIONFEE_IN += Number(result[i].TUITIONFEE_IN);
+                        participantInst.TUITIONFEE_IN += 1
+                    }
+
+                    if (Number(Number(result[i].TUITIONFEE_OUT))) {
+                        totalValues.TUITIONFEE_OUT += Number(result[i].TUITIONFEE_OUT);
+                        participantInst.TUITIONFEE_OUT += 1
+                    }
+
+                    if (Number(Number(result[i].UGDS))) {
+                        totalValues.ENROLL += Number(result[i].UGDS);
+                        participantInst.ENROLL += 1
+                    }
+                }
+
+                let numberOfInstitutions = result.length;
+                let avgValues = {ACT_AVG: totalValues.ACT_AVG/participantInst.ACT_AVG,
+                    ADM_RATE: totalValues.ADM_RATE/participantInst.ADM_RATE, GRAD_RATE: totalValues.GRAD_RATE/participantInst.GRAD_RATE,
+                    SAT_AVG: totalValues.SAT_AVG/participantInst.SAT_AVG, TUITIONFEE_IN: totalValues.TUITIONFEE_IN/participantInst.TUITIONFEE_IN,
+                    TUITIONFEE_OUT: totalValues.TUITIONFEE_OUT/participantInst.TUITIONFEE_OUT, ENROLL: totalValues.ENROLL/participantInst.ENROLL};
+                console.log(avgValues);
+                res.send(JSON.stringify(avgValues));
+            }) ;
+        });
+    });
+});
+
+
+module.exports = router;
