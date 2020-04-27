@@ -12,51 +12,22 @@ class MongoDBConnect:
 
     def __init__(self):
         # connect to MongoDB
-        client = MongoClient("mongodb://localhost:27017")
-        self.db = client["finalproject"]
-        self.col = self.db["institution1819"]
+        client = MongoClient("mongodb+srv://comp895va:dnjn895@hbcu-scoreboard-sjn7a.mongodb.net")
+        self.db = client["scorecard"]
+        self.col = self.db["academicyear20182019"]
 
     def get_all(self):
-        samples = []
-        for x in self.col.find():
-            current_sample = []
-            for value in x.values():
-                if type(value) == type(""):
-                    # Check if the value is a number, if not, set it to None (null)
-
-                    try:
-                        value = float(value)
-                    except ValueError:
-                        value = 0
-
-                    current_sample.append(value)
-
-            samples.append(current_sample[23:])
-
-        return np.array(samples)
+        print("Retrieving all institutions")
+        samples = list(self.col.find())
+        print("All institutions successfully retrieved")
+        return np.array(samples[:-1])
 
     def getOne(self, UNITID):
         sample = np.array(list(self.col.find({"UNITID" : UNITID})))
         return sample
 
     def get_HBCUs(self):
-        samples = []
-        print(list(self.col.find()))
-        for x in self.col.find({"HBCU": "1"}):
-            current_sample = []
-            for value in x.values():
-                if type(value) == type(""):
-                    #Check if the value is a number, if not, set it to None (null)
-
-                    try:
-                        value = float(value)
-                    except ValueError:
-                        value = 0
-
-                    current_sample.append(value)
-
-            samples.append(current_sample[23:])
-
+        samples = list(self.col.find({"HBCU": "1"}))
         return np.array(samples)
 
     def getHBCUNames(self):
@@ -88,8 +59,12 @@ class MongoDBConnect:
         return np.array(variables)
 
     def update_scores(self, scores):
-        score_col = self.db["scores"]
 
-        x = score_col.update_many({}, scores)
+        print(scores)
 
-        print(x.modified_count, "scores updated")
+        for x in scores:
+            myquery = {"_id": x["_id"]}
+            newvalues = {"$set": {"SCORE": x["SCORE"]}}
+            self.col.update_one(myquery, newvalues)
+
+        print("Database update successful")

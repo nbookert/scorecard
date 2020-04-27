@@ -17,88 +17,103 @@ def filterColumns(column_names, selected_columns):
 
     return temp
 
-def calculate_scores(output):
+def calculate_scores(all_output, all_institutions):
     scores = []
 
-    for x in output:
+    for i in range(len(all_output)):
+        inst = {}
+        inst['_id'] = all_institutions[i]['_id']
+        x = all_output[i]
         sum = 0.0
         for value in x:
             sum += value
 
-        scores.append(sum)
+        inst['SCORE'] = sum
+        scores.append(inst)
 
     return scores
+
+def convert_to_feature_vector(samples):
+    temp = []
+    proper_len = 0
+    for x in samples:
+        current_sample = []
+        for value in x.values():
+            if type(value) == type(""):
+                # Check if the value is a number, if not, set it to None (null)
+
+                try:
+                    value = float(value)
+                except ValueError:
+                    value = 0
+
+                current_sample.append(value)
+
+        temp.append(current_sample[23:])
+
+    return normalize(temp, norm="max")
+
+
+def get_hbcus(all_institutions):
+
+    temp = []
+
+    for i in range(len(all_institutions)):
+        x = all_institutions[i]
+        if x["HBCU"] == "1":
+            x["index"] = i
+            temp.append(x)
+
+    return temp
+
+def get_hbcu_samples(hbcus, all_samples):
+    temp = []
+
+    for x in hbcus:
+        temp.append(all_samples[x["index"]])
+
+    return temp
 
 
 if __name__ == "__main__":
 
     db = MongoDBConnect()
 
-    # Get the all the HBCUS from the database
-    samples = db.get_HBCUs()
+    # Get the all the institutions from the database
+    all_institutions = db.get_all()
+    all_samples = convert_to_feature_vector(all_institutions)
+    print("Institution Feature Vector Creation Successful")
+
+    hbcus = get_hbcus(all_institutions)
+    print("Successfully gathered HBCUS")
 
     # Normalize values
-    samples = normalize(samples, norm="max")
+    hbcu_samples = get_hbcu_samples(hbcus, all_samples)
+    print("Successfully gathered HBCU Feature Vectors")
 
     # Reduce the features
     selector = VarianceThreshold(THRESHOLD)
-    selector.fit(samples)
+    selector.fit(hbcu_samples)
+    print("Successfully finished Variance Threshold")
 
     # Insert reduced feature vectors into output variable
-    output = selector.transform(samples)
+    all_output = selector.transform(all_samples)
+    print("Successfully finished Transforming all institutions")
 
-    #Get the institution names, column names, and selected columns
-    institution_names = db.getHBCUNames()
-    column_names = db.get_variable_code()
-    selected_columns = list(selector.get_support())
+    # #Get column names and selected columns
+    # column_names = db.get_variable_code()
+    # selected_columns = list(selector.get_support())
+    #
+    # #Filter out unused columns
+    # column_names = filterColumns(column_names, selected_columns)
 
-    #Filter out unused columns
-    column_names = filterColumns(column_names, selected_columns)
-
-    w = open("selected_columns.txt", "w")
-    i = 0
-
-    for i in range(len(column_names)):
-        w.write(str(column_number[i]) + ": " + column_names[i] + "\n")
-    w.close()
-
-    print("Number of Institutions: " + str(len(samples)) + "\n")
+    print("Number of Institutions: " + str(len(all_samples)) + "\n")
+    print("Number of HBCUs: " + str(len(hbcu_samples)) + "\n")
     print("Threshold: " + str(THRESHOLD) + "\n")
-    print("Original Number of Variables: " + str(len(samples[0])) + "\n")
-    print("Selected Number of Variables: " + str(len(output[0])) + "\n")
+    print("Original Number of Variables: " + str(len(hbcu_samples[0])) + "\n")
+    print("Selected Number of Variables: " + str(len(all_output[0])) + "\n")
 
-    scores = calculate_scores(output)
-    # scores_dict = {}
-    #
-    # # Sort the scores
-    # i = 0
-    # for i in range(len(names)):
-    #     scores_dict[names[i]] = scores[i]
-    #     i += 1
-    #
-    # sorted_scores_dict = {k: v for k, v in sorted(scores_dict.items(), key=lambda item: item[1], reverse=True)}
+    scores = calculate_scores(all_output, all_institutions)
+    print("Scores Successfully Calculated")
 
-    w = open("scores.csv", "w")
-
-    w.write("Institution Name")
-    w.write(",Cumulative Score")
-
-    for variable in column_names:
-        w.write("," + variable)
-
-    w.write("\n")
-
-    i = 0
-    for i in range(len(institution_names)):
-
-        w.write(institution_names[i] + "," + str(scores[i]))
-
-        for value in output[i]:
-            w.write("," + str(value))
-
-        w.write("\n")
-        i += 1
-
-    w.close()
-
-
+    db.update_scores(scores)
