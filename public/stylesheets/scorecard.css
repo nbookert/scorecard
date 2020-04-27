@@ -9,6 +9,10 @@ header{
     width:20%;
     height: 100%;
     text-align: center;
+}
+#full-list{
+    height:80%;
+    text-align: left;
     overflow: scroll;
 }
 #map-div{
@@ -26,18 +30,20 @@ header{
 }
 #hbcuscore{
     float: left;
-    width:30%;
+    width:10%;
     height:20%;
     /* background-color: lightskyblue; */
 }
 #otherscore{
     float:right;
-    width:70%;
+    width:90%;
     height:20%;
     /* background-color: lightpink; */
 }
-#bar-div{
+#bar-stuff{
     height:80%;
     width:100%;
-    /* background-color: lightslategray; */
+}
+#bar-div{
+    height:100%;
 }

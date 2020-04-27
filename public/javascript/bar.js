@@ -34,7 +34,7 @@ function barchart() {
     
         data.sort(function(a, b) { return a[yvar] - b[yvar]; });  
         x.domain(data.map(function(d){return d.place}));
-        y.domain([0, d3.max(data, function(d){return d[yvar]})]);
+        y.domain([d3.min(data, function(d){return d[yvar]})-1, d3.max(data, function(d){return d[yvar]})]);
 
         // svg.append("g")
         //     .attr("class", "x axis")
@@ -71,14 +71,14 @@ function barchart() {
                 .style("opacity", 1)
                 d3.select(this)
                 .style("stroke", "black")
-                .style("opacity", 1)
+                .style("opacity", .8)
             })
             .on("mouseleave",function(d) {
                 Tooltip
                   .style("opacity", 0)
                 d3.select(this)
                   .style("stroke", "none")
-                  .style("opacity", 0.8)
+                  .style("opacity", 1)
               });
 
         var Tooltip = d3.select("#div_template")

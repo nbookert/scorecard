@@ -1,5 +1,4 @@
 var hbcu =0;
-var other=0;
 function compute_hbcu(){
     let sdata=[]
     d3.csv("data/hbcus-list.csv").then(function(data){
@@ -9,8 +8,6 @@ function compute_hbcu(){
             if(d.years==4){
                 hbcu++;
 
-            }else{
-                other++;
             }
             
 
@@ -20,14 +17,6 @@ function compute_hbcu(){
     .append("text")
     .style("font-size","large")
     .text(hbcu)
-    // .on("mouseover",)
-
-    d3.select("#otherscore")
-    .append("p")
-    .append("text")
-    .style("font-size","large")
-    .text(other)
-
     }).catch(function(error){
         console.log(error);
     });
