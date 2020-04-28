@@ -92,9 +92,6 @@ d3.csv("/data/stateslocated.csv", function(data) {
     // d3.csv("data/hbcus-list.csv").then(function(data){
     d3.json(url, function(data) {
 
-        console.log("First line of csv",data[0]);
-        console.log("Indexing place of first line",data[0].place)
-
         data.forEach(function(d){
             d.LONGITUDE = parseFloat(d.LONGITUDE);
             d.LATITUDE = parseFloat(d.LATITUDE);
@@ -121,7 +118,7 @@ d3.csv("/data/stateslocated.csv", function(data) {
                 div.transition()
                     .duration(200)
                     .style("opacity", .9);
-                div.text(d.place)
+                div.text(d.NAME)
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
             })
