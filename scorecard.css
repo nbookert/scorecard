@@ -1,0 +1,42 @@
+header{
+    text-align: center;
+    padding: 5pt;
+    background-color: black;
+    color: gray;
+}
+#list-div{
+    float: left;
+    width:20%;
+    height: 100%;
+    text-align: center;
+}
+#map-div{
+    display: inline-block;
+    width:50%;
+    height:100%;
+    text-align: center;
+    /* background-color: lightgrey; */
+}
+#medianscore{
+    float:right;
+    width:30%;
+    height:100%;
+    text-align: center;
+}
+#hbcuscore{
+    float: left;
+    width:50%;
+    height:50%;
+    /* background-color: lightskyblue; */
+}
+#otherscore{
+    float:right;
+    width:50%;
+    height:50%;
+    /* background-color: lightpink; */
+}
+#bar-div{
+    height:50%;
+    width:100%;
+    /* background-color: lightslategray; */
+}
