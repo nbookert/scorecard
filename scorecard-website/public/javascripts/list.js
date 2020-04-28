@@ -4,10 +4,10 @@ function sortList(elem){
     sortValue=elem;
     console.log("I hope this works", sortValue);
     if(sortValue == "abc"){
-        data.sort(function(a, b) { return a.lat - b.lat; });  
+        data.sort(function(a, b) { return a.NAME - b.NAME; });  
         console.log("Sorting by abc");
     }else{
-        data.sort(function(a, b) { return a.years - b.years; });  
+        data.sort(function(a, b) { return a.SCORE - b.SCORE; });  
         console.log("sorting by rank")
     }
 };
@@ -22,7 +22,7 @@ function show_list(){
             console.log(data);
         
             //rank by default
-            data.sort(function(a, b) { return a.years - b.years; });  
+            data.sort(function(a, b) { return a.SCORE - b.SCORE; });
 
             //  or "rank"
             svg.selectAll(".bar")
@@ -30,7 +30,7 @@ function show_list(){
             .enter()
             .append("p")
             .append("text")
-            .text(function(d){return d.place})
+            .text(function(d){return d.NAME})
             .style("font-size","small")
             .style("color","black");
             // .on("mouseover",function(){
