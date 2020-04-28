@@ -14,12 +14,9 @@ function sortList(elem){
 function show_list(){
     var url = 'http://localhost:8080/hbcu/institution-data';
 
-    // d3.csv("data/hbcus-list.csv").then(function(data){
         d3.json(url).then(function(data){
         let svg = d3.select("#full-list")
         let margin = {top: 20, right: 20, bottom: 30, left: 40};
-            console.log("Does this print");
-            console.log(data);
         
             //rank by default
             data.sort(function(a, b) { return a.SCORE - b.SCORE; });
