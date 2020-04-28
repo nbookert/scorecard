@@ -121,7 +121,7 @@ d3.csv("/data/stateslocated.csv", function(data) {
                 div.transition()
                     .duration(200)
                     .style("opacity", .9);
-                div.text(d.place)
+                div.text(d.NAME)
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
             })
