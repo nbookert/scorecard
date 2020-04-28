@@ -29,6 +29,9 @@ function show_list(){
             .data(data)
             .enter()
             .append("p")
+            .attr("class",function(d){
+                return d.NAME;
+            })
             .append("text")
             .text(function(d){return d.NAME})
             .style("font-size","small")

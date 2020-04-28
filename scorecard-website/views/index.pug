@@ -1,3 +1,4 @@
+//- extends layout
 html
   head
     title
@@ -8,6 +9,9 @@ html
 
   body
     header Historically Black Colleges and Universities(HBCU) Scorecard
+    #hbcuscore
+      | Rank
+      script(src='/javascripts/hbcu.js')
     #list-div
       | Sorted:
       select(onchange='sortList(this.value);')
@@ -19,14 +23,11 @@ html
       | interactive map
     #medianscore
       // School name
-      #hbcuscore
-        | Rank
-        //- script(src='/javascripts/hbcu.js')
       #otherscore
-        //- script(src='/javascripts/line.js')
+        script(src='/javascripts/line.js')
       #bar-stuff
         #bar-div
-          //- script(src='/javascripts/bar.js')
+          script(src='/javascripts/bar.js')
         |             Show:
         select(onchange='switchData(this.value);')
           option(value='rank', selected='') median scores
@@ -42,9 +43,8 @@ html
 
     script.
       show_list();
-      //- compute_hbcu();
-      //- barchart();
-      //- linegraph();
-      console.log("This prints")
+      compute_hbcu();
+      barchart();
+      linegraph();
       // stackedbarchart();
       // bar.highlightBar();

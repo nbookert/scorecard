@@ -1,16 +1,13 @@
 var hbcu =0;
 function compute_hbcu(){
     let sdata=[]
-    d3.csv("data/hbcus-list.csv").then(function(data){
+
+    var url = 'http://localhost:8080/hbcu/institution-data';
+
+        d3.json(url).then(function(data){
+
         data.forEach(function(d) {
-            d.years=+d.years
-
-            if(d.years==4){
-                hbcu++;
-
-            }
-            
-
+                hbcu+=d.TUITIONFEE_IN
         });
     d3.select("#hbcuscore")
     .append("p")

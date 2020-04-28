@@ -22,18 +22,22 @@ function barchart() {
     
     let xAxis = d3.axisBottom(x);
     let yAxis = d3.axisLeft(y);
-    let yvar = "lat";
+    let yvar = "LATITUDE";
     selected = "Rust College";
 
-    d3.csv("data/hbcus-list.csv").then(function(data){
+    var url = 'http://localhost:8080/hbcu/institution-data';
+
+    // d3.csv("data/hbcus-list.csv").then(function(data){
+        d3.json(url).then(function(data){
+
         data.forEach(function(d){
             d.years=+d.years;
-            d.lat=parseFloat(d.lat);
-            d.lon=parseFloat(d.lon);
+            d.LATITUDE=parseFloat(d.LATITUDE);
+            d.LONGITUDE=parseFloat(d.LONGITUDE);
         });
     
         data.sort(function(a, b) { return a[yvar] - b[yvar]; });  
-        x.domain(data.map(function(d){return d.place}));
+        x.domain(data.map(function(d){return d.NAME}));
         y.domain([d3.min(data, function(d){return d[yvar]})-1, d3.max(data, function(d){return d[yvar]})]);
 
         // svg.append("g")
@@ -60,11 +64,11 @@ function barchart() {
             .data(data)
             .enter().append("rect")
             .attr("class", "bar")
-            .attr("x", function(d) { return x(d.place); })
+            .attr("x", function(d) { return x(d.NAME); })
             .attr("width", x.bandwidth())
             .attr("y", function(d) { return y(d[yvar]); })
             .attr("height", function(d) { return height - y(d[yvar]); })
-            .style("fill",function(d){if(d.place ==selected){return "red";}  else {return "steelblue";}})
+            .style("fill",function(d){if(d.NAME ==selected){return "red";}  else {return "steelblue";}})
             .on("mouseover", function(d) {
                 Tooltip
                 // .html("The exact value of<br>this cell is: " + d.value)

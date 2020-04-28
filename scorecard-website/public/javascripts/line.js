@@ -23,16 +23,18 @@ function linegraph(){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     let line =d3.line()
-        .x(function(d){return x(d.year);})
-        .y(function(d){return y(d.score);})
+        .x(function(d){return x(d.SAT_AVG);})
+        .y(function(d){return y(d.ADM_RATE);})
 
-    d3.csv("data/test_line.csv").then(function(data){
+    var url = 'http://localhost:8080/hbcu/institution-data';
+
+    d3.json(url).then(function(data){
         
         data.forEach(function(d){
-            d.year=parseDate(d.year)
+            d.SAT_AVG=parseDate(d.SAT_AVG)
         })
-        x.domain(d3.extent(data, function(d){return d.year;}));
-        y.domain(d3.extent(data, function(d){return d.score;}));
+        x.domain(d3.extent(data, function(d){return d.SAT_AVG;}));
+        y.domain(d3.extent(data, function(d){return d.ADM_RATE;}));
 
     svg.append("g")
         .attr("class","x-axis")
