@@ -89,7 +89,7 @@ function map() {
                     if (projection([d.LONGITUDE, d.LATITUDE]))
                         return projection([d.LONGITUDE, d.LATITUDE])[1];
                 })
-                .attr("r", 4)
+                .attr("r", 6)
                 .style("fill", "rgb(217,34,12)")
                 .style("opacity", 0.85)
 
