@@ -6,7 +6,8 @@ html
     link(rel='stylesheet', type='text/css', href='/stylesheets/bar.css')
     link(rel='stylesheet', type='text/css', href='/stylesheets/map.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
-    script(src="http://d3js.org/d3.v3.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js")
+    script(src="https://d3js.org/topojson.v3.min.js")
     script(src='https://d3js.org/d3.v5.min.js')
 
   body
@@ -23,7 +24,7 @@ html
         script(src='/javascripts/list.js')
     #map-div
       | interactive map
-      //- script(src='/javascripts/map.js')
+      script(src='/javascripts/map.js')
     #medianscore
       // School name
       #otherscore
@@ -49,4 +50,4 @@ html
       compute_hbcu();
       barchart();
       linegraph();
-      //- map();
+      map();
