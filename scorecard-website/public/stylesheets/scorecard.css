@@ -1,0 +1,48 @@
+header{
+    text-align: center;
+    padding: 5pt;
+    background-color: black;
+    color: gray;
+}
+
+/* Split between two */
+#list-div{
+    float: left;
+    width:20%;
+    height: 75%;
+    text-align: center;
+}
+#full-list{
+    height:80%;
+    text-align: left;
+    overflow: scroll;
+}
+#map-div{
+    display: inline-block;
+    width:70%;
+    height:75%;
+    text-align: right;
+}
+#hbcuscore{
+    float: left;
+    width:10%;
+    height:75%;
+}
+/* Split between two */
+#medianscore{
+    /* float:right; */
+    width:100%;
+    height:75%;
+}
+#otherscore{
+    float:right;
+    width:25%;
+    height:50%;
+}
+#bar-stuff{
+    width:75%;
+    height:50%;
+}
+#bar-div{
+    height:100%;
+}

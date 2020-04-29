@@ -1,0 +1,66 @@
+<html>
+    <title></title>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/scorecard.css">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/bar.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
+    <header>Historically Black Colleges and Universities(HBCU) Scorecard</header>
+  
+    <div id='list-div'>
+
+            Sorted:
+        <select onchange="sortList(this.value);">
+            <option value="abc">Alphabetically</option>
+            <option value="rank" selected>By Rank</option>
+        </select>
+        <div id='full-list'>
+            <script src="/javascript/list.js"></script>
+        </div>
+    </div>
+    <div id='map-div'>
+        interactive map
+    </div>
+
+    <div id='medianscore'>
+        <!-- School name -->
+        <div id='hbcuscore'>
+            Rank
+            <script src="/javascript/hbcu.js"></script>
+        </div>
+        <div id='otherscore'>
+            
+            <script src="/javascript/line.js"></script>
+            </div>
+        <div id='bar-stuff'>
+            <div id='bar-div'>
+            <script src='/javascript/bar.js'></script>
+            </div>
+            Show:
+            <select onchange="switchData(this.value);" >
+                <option value="rank" selected>median scores</option>
+                <option value="abc">SAT scores</option>
+                <option value="abc">ACT scores</option>
+                <option value="abc">Class Size</option>
+                <option value="abc">Graduation Rate</option>
+                <option value="abc">Acceptance Rate</option>
+                <option value="abc">Student Body Size</option>
+                <option value="abc"># of Programs</option>
+                <option value="abc">Out of State Tuition</option>
+                <option value="abc">In State Tuition</option>
+            </select>
+        </div>
+    </div>
+
+<script>
+    show_list();
+    compute_hbcu();
+    barchart();
+    linegraph();
+    // stackedbarchart();
+    // bar.highlightBar();
+
+    
+</script>
+</html>
