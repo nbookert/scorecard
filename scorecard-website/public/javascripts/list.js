@@ -7,7 +7,7 @@ function sortList(elem){
         data.sort(function(a, b) { return a.NAME - b.NAME; });  
         console.log("Sorting by abc");
     }else{
-        data.sort(function(a, b) { return a.SCORE - b.SCORE; });  
+        data.sort(function(a, b) { return b.SCORE - a.SCORE; });  
         console.log("sorting by rank")
     }
 };
@@ -18,10 +18,8 @@ function show_list(){
         let svg = d3.select("#full-list")
         let margin = {top: 20, right: 20, bottom: 30, left: 40};
         
-            //rank by default
-            data.sort(function(a, b) { return a.SCORE - b.SCORE; });
+            data.sort(function(a, b) { return b.SCORE - a.SCORE; });
 
-            //  or "rank"
             svg.selectAll(".bar")
             .data(data)
             .enter()

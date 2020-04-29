@@ -22,7 +22,7 @@ function barchart() {
     
     let xAxis = d3.axisBottom(x);
     let yAxis = d3.axisLeft(y);
-    let yvar = "LATITUDE";
+    let yvar = "ENROLL";
     selected = "Rust College";
 
     var url = 'http://localhost:8080/hbcu/institution-data';
@@ -30,11 +30,11 @@ function barchart() {
     // d3.csv("data/hbcus-list.csv").then(function(data){
         d3.json(url).then(function(data){
 
-        data.forEach(function(d){
-            d.years=+d.years;
-            d.LATITUDE=parseFloat(d.LATITUDE);
-            d.LONGITUDE=parseFloat(d.LONGITUDE);
-        });
+        // data.forEach(function(d){
+        //     d.years=+d.years;
+        //     d.LATITUDE=parseFloat(d.LATITUDE);
+        //     d.LONGITUDE=parseFloat(d.LONGITUDE);
+        // });
     
         data.sort(function(a, b) { return a[yvar] - b[yvar]; });  
         x.domain(data.map(function(d){return d.NAME}));
@@ -71,11 +71,14 @@ function barchart() {
             .style("fill",function(d){if(d.NAME ==selected){return "red";}  else {return "steelblue";}})
             .on("mouseover", function(d) {
                 Tooltip
-                // .html("The exact value of<br>this cell is: " + d.value)
                 .style("opacity", 1)
                 d3.select(this)
                 .style("stroke", "black")
-                .style("opacity", .8)
+                .style("opacity", .5)
+                Tooltip
+                .html("Testing " + d[yvar])
+                .style("left", (d3.event.pageX + 5) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
             })
             .on("mouseleave",function(d) {
                 Tooltip
@@ -85,6 +88,10 @@ function barchart() {
                   .style("opacity", 1)
               });
 
+    })
+    .catch(function(error){
+        console.log(error);
+    });
         var Tooltip = d3.select("#div_template")
             .append("div")
             .style("opacity", 0)
@@ -94,8 +101,4 @@ function barchart() {
             .style("border-width", "2px")
             .style("border-radius", "5px")
             .style("padding", "5px")
-    })
-    .catch(function(error){
-        console.log(error);
-    });
 }

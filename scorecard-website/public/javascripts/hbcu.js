@@ -9,7 +9,7 @@ function compute_hbcu(){
         data.forEach(function(d) {
                 hbcu+=d.TUITIONFEE_IN
         });
-    d3.select("#hbcuscore")
+    d3.select("#rank")
     .append("p")
     .append("text")
     .style("font-size","large")
