@@ -425,43 +425,26 @@ router.get('/website', function(req,res, next) {
 });
 
 router.get('/score', function(req,res, next) {
-    MongoClient.connect("mongodb+srv://comp895va:dnjn895@hbcu-scoreboard-sjn7a.mongodb.net", function(err, client){
-        if (err) {
-            console.log(err);
-            res.status(500);
-            res.send();
-        } else {
-            let db = client.db("scorecard");
-            db.collection('academicyear20182019', function (err, collection) {
-                collection.find({HBCU: "1"}, {
-                    projection: {
-                        INSTNM: 1, SCORE: 1
-                    }
-                }).toArray(function (err, result) {
-                    if (err) {
-                        client.close();
-                        console.log(err);
-                        res.status(500);
-                        res.send();
-                    }
+    let query = {HBCU: "1"};
+    let requestedData = {INSTNM: 1, SCORE: 1};
 
-                    output = []
+    let collectionName = 'academicyear20182019';
+    let scoredYear = 2018-2019
+    sendData(collectionName, query, requestedData, scoredYear, req, res, next);
 
-                    for (let i = 0; i < result.length; i++) {
-                        let inst = {
-                            NAME: result[i].INSTNM, SCORE: result[i].SCORE
-                        };
+    collectionName = 'academicyear20172018';
+    scoredYear = 2017-2018
+    sendData(collectionName, query, requestedData, scoredYear, req, res, next);
 
-                        output.push(inst)
-                    }
+    collectionName = 'academicyear20162017';
+    scoredYear = 2016-2017
+    sendData(collectionName, query, requestedData, scoredYear, req, res, next);
 
-                    client.close();
-                    output.sort(compare);
-                    res.send(JSON.stringify(output))
-                });
-            });
-        }
-    });
+    collectionName = 'academicyear20152016';
+    scoredYear = 2015-2016
+    sendData(collectionName, query, requestedData, scoredYear, req, res, next);
+
+
 });
 
 function compare(a, b) {
@@ -469,6 +452,44 @@ function compare(a, b) {
     if (b.NAME > a.NAME) return -1;
 
     return 0;
+}
+
+function sendData(collectionName, query, requestedData, scoredYear, req, res, next) {
+    MongoClient.connect("mongodb+srv://comp895va:dnjn895@hbcu-scoreboard-sjn7a.mongodb.net", function(err, client){
+        if (err) {
+            console.log(err);
+            res.code(500);
+            res.send();
+        } else {
+            let output = []
+            let db = client.db("scorecard");
+            db.collection(collectionName, function (err, collection) {
+                collection.find(query, {
+                    projection: requestedData
+                }).toArray(function (err, result) {
+                    if (err) {
+                        client.close();
+                        console.log(err);
+                        res.code(500);
+                        res.send();
+                    }
+
+                    for (let i = 0; i < result.length; i++) {
+                        let inst = {
+                            NAME: result[i].INSTNM, SCORE: result[i].SCORE,
+                            YEAR: scoredYear
+                        };
+
+                        output.push(inst)
+                    }
+
+                    client.close();
+                    output.sort(compare);
+                    res.send(JSON.stringify(output));
+                });
+            });
+        }
+    });
 }
 
 module.exports = router;

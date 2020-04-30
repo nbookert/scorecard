@@ -60,11 +60,26 @@ class MongoDBConnect:
 
     def update_scores(self, scores):
 
-        print(scores)
-
         for x in scores:
             myquery = {"_id": x["_id"]}
             newvalues = {"$set": {"SCORE": x["SCORE"]}}
             self.col.update_one(myquery, newvalues)
 
         print("Database update successful")
+
+    def get_all_from_collection(self, collection_name):
+        print("Retrieving all institutions for " + collection_name)
+        temp_col = self.db[collection_name]
+        samples = list(temp_col.find())
+        print("All institutions successfully retrieved from " + collection_name)
+        return np.array(samples[:-1])
+
+    def update_scores_for_collection(self, collection_name, scores):
+        temp_col = self.db[collection_name]
+
+        for x in scores:
+            myquery = {"_id": x["_id"]}
+            newvalues = {"$set": {"SCORE": x["SCORE"]}}
+            temp_col.update_one(myquery, newvalues)
+
+        print("Database update successful for " + collection_name)

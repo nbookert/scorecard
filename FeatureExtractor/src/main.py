@@ -35,16 +35,19 @@ def calculate_scores(all_output, all_institutions):
 
 def convert_to_feature_vector(samples):
     temp = []
-    proper_len = 0
+
     for x in samples:
         current_sample = []
-        for value in x.values():
-            if type(value) == type(""):
+        for k, v in x.items():
+            if k != '_id' and k != 'SCORE':
                 # Check if the value is a number, if not, set it to None (null)
 
-                try:
-                    value = float(value)
-                except ValueError:
+                if type(v) == type(""):
+                    try:
+                        value = float(v)
+                    except ValueError:
+                        value = 0
+                else:
                     value = 0
 
                 current_sample.append(value)
@@ -82,23 +85,23 @@ if __name__ == "__main__":
     # Get the all the institutions from the database
     all_institutions = db.get_all()
     all_samples = convert_to_feature_vector(all_institutions)
-    print("Institution Feature Vector Creation Successful")
+    # print("Institution Feature Vector Creation Successful")
 
     hbcus = get_hbcus(all_institutions)
-    print("Successfully gathered HBCUS")
+    # print("Successfully gathered HBCUS")
 
     # Normalize values
     hbcu_samples = get_hbcu_samples(hbcus, all_samples)
-    print("Successfully gathered HBCU Feature Vectors")
+    # print("Successfully gathered HBCU Feature Vectors")
 
     # Reduce the features
     selector = VarianceThreshold(THRESHOLD)
     selector.fit(hbcu_samples)
-    print("Successfully finished Variance Threshold")
+    # print("Successfully finished Variance Threshold")
 
     # Insert reduced feature vectors into output variable
     all_output = selector.transform(all_samples)
-    print("Successfully finished Transforming all institutions")
+    # print("Successfully finished Transforming all institutions")
 
     # #Get column names and selected columns
     # column_names = db.get_variable_code()
@@ -107,13 +110,49 @@ if __name__ == "__main__":
     # #Filter out unused columns
     # column_names = filterColumns(column_names, selected_columns)
 
-    print("Number of Institutions: " + str(len(all_samples)) + "\n")
-    print("Number of HBCUs: " + str(len(hbcu_samples)) + "\n")
-    print("Threshold: " + str(THRESHOLD) + "\n")
-    print("Original Number of Variables: " + str(len(hbcu_samples[0])) + "\n")
-    print("Selected Number of Variables: " + str(len(all_output[0])) + "\n")
+    # print("Number of Institutions: " + str(len(all_samples)) + "\n")
+    # print("Number of HBCUs: " + str(len(hbcu_samples)) + "\n")
+    # print("Threshold: " + str(THRESHOLD) + "\n")
+    # print("Original Number of Variables: " + str(len(hbcu_samples[0])) + "\n")
+    # print("Selected Number of Variables: " + str(len(all_output[0])) + "\n")
+
+    # scores = calculate_scores(all_output, all_institutions)
+    # print("Scores Successfully Calculated for academicyear20182019")
+    #
+    # db.update_scores(scores)
+
+    collection_name = "academicyear20172018"
+    all_institutions = db.get_all_from_collection(collection_name)
+    all_samples = convert_to_feature_vector(all_institutions)
+
+    all_output = selector.transform(all_samples)
+    #print("Successfully finished Transforming all institutions for " + collection_name)
 
     scores = calculate_scores(all_output, all_institutions)
-    print("Scores Successfully Calculated")
+    print("Scores Successfully Calculated for " + collection_name)
 
-    db.update_scores(scores)
+    db.update_scores_for_collection(collection_name, scores)
+
+    collection_name = "academicyear20162017"
+    all_institutions = db.get_all_from_collection(collection_name)
+    all_samples = convert_to_feature_vector(all_institutions)
+
+    all_output = selector.transform(all_samples)
+    #print("Successfully finished Transforming all institutions for " + collection_name)
+
+    scores = calculate_scores(all_output, all_institutions)
+    print("Scores Successfully Calculated for " + collection_name)
+
+    db.update_scores_for_collection(collection_name, scores)
+
+    collection_name = "academicyear20152016"
+    all_institutions = db.get_all_from_collection(collection_name)
+    all_samples = convert_to_feature_vector(all_institutions)
+
+    all_output = selector.transform(all_samples)
+    #print("Successfully finished Transforming all institutions for " + collection_name)
+
+    scores = calculate_scores(all_output, all_institutions)
+    print("Scores Successfully Calculated for " + collection_name)
+
+    db.update_scores_for_collection(collection_name, scores)

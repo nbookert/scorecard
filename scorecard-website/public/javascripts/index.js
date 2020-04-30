@@ -10,7 +10,7 @@ $(document).ready(function() {
     //testURL("http://localhost:8080/hbcu/publicprivate");
     //testURL("http://localhost:8080/hbcu/average-sat");
     //testURL("http://localhost:8080/hbcu/website");
-   // testURL("http://localhost:8080/hbcu/score");
+    testURL("http://localhost:8080/hbcu/score");
 
     // xhttp = new XMLHttpRequest();
     // url = "http://localhost:8080/all/mean-values";
