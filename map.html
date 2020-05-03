@@ -1,204 +1,75 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<style type="text/css">
+    <title>Interactive Map</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+    <![endif]-->
+    <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Milonga' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />	<style type="text/css">
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    html, body, #map {
+        height: 100%;
+        font-family: 'Palatino Linotype', serif;
+    }
+    .leaflet-container .leaflet-control-zoom {
+        margin-left: 13px;
+        margin-top: 70px;
+    }
 
-/* On mouse hover, lighten state color */
-path:hover {
-	fill-opacity: .7;
-}
 
-/* Style for Custom Tooltip */
-div.tooltip {   
- 	position: absolute;           
-	text-align: center;           
-	width: 60px;                  
-	height: 28px;                 
-	padding: 2px;             
-	font: 12px sans-serif;        
-	background: white;   
-	border: 0px;      
-	border-radius: 8px;           
-	pointer-events: none;         
-}
-        
-/* Legend Font Style */
-body {
-	font: 11px sans-serif;
-}
-        
-/* Legend Position Style */
-.legend {
-	position:absolute;
-	left:800px;
-	top:350px;
-}
 
+    #map { z-index: 1;}
+    #title { z-index: 2; position: absolute; left: 10px; }
 </style>
+
 </head>
 <body>
-<script type="text/javascript">
+<h1 id="title">HBCU Map</h1>
+<div id="map"></div>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([39.8283, -98.5795], 5);
+    var markerLayerGroup = L.layerGroup().addTo(map);
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+    }).addTo(map);
 
-	//Width and height of map
-	var width = 960;
-	var height = 500;
 
-	// D3 Projection
-	var projection = d3.geo.albersUsa()
-		.translate([width/2, height/2])    // translate to center of screen
-		.scale([1000]);                    // scale things down so see entire US
-			
-	// Define path generator
-	var path = d3.geo.path()               // path generator that will convert GeoJSON to SVG paths
-		.projection(projection);  // tell path generator to use albersUsa projection
 
-			
-	// Define linear scale for output
-	var color = d3.scale.linear()
-		.range(["rgb(213,222,217)","rgb(14,38,217)"]);
+    function getPins(e){
+        bounds = map.getBounds();
+        url = "http://localhost:63342/hbcu/institution-data" + bounds.getNorthEast().lat + "&lon1=" + bounds.getNorthEast().lng + "&lat2=" + bounds.getSouthWest().lat + "&lon2=" + bounds.getSouthWest().lng;
+        $.get(url, pinTheMap, "json")
+    }
 
-	var legendText = ["States with HBCU(s)", "No HBCUs"];
+    function pinTheMap(data){
+        //clear the current pins
+        map.removeLayer(markerLayerGroup);
 
-	//Create SVG element and append map to the SVG
-	var svg = d3.select("body")
-		.append("svg")
-		.attr("width", width)
-		.attr("height", height);
-			
-	// Append Div for tooltip to SVG
-	var div = d3.select("body")
-		.append("div")   
-		.attr("class", "tooltip")               
-		.style("opacity", 0);
+        //add the new pins
+        var markerArray = new Array(data.length)
+        for (var i = 0; i < data.length; i++){
+            park = data[i];
+            markerArray[i] = L.marker([park.pos[1], park.pos[0]]).bindPopup(park.Name);
+        }
 
-	// Load in my states data!
+        markerLayerGroup = L.layerGroup(markerArray).addTo(map);
 
-	d3.csv("stateslocated.csv", function(data) {
-		color.domain([0,1]); // setting the range of the input data
 
-		// Load GeoJSON data and merge with states data
-		d3.json("us-states.json", function(json) {
+    }
 
-		// Loop through each state data value in the .csv file
-		for (var i = 0; i < data.length; i++) {
+    map.on('dragend', getPins);
+    map.on('zoomend', getPins);
+    map.whenReady(getPins)
 
-			// Grab State Name
-			var dataState = data[i].state;
-
-			// Grab data value 
-			var dataValue = data[i].hbcus;
-
-			// Find the corresponding state inside the GeoJSON
-			for (var j = 0; j < json.features.length; j++)  {
-				var jsonState = json.features[j].properties.name;
-
-				if (dataState == jsonState) {
-
-				// Copy the data value into the JSON
-				json.features[j].properties.hbcus = dataValue;
-
-				// Stop looking through the JSON
-				break;
-				}
-			}
-		}
-				
-		// Bind the data to the SVG and create one path per GeoJSON feature
-		svg.selectAll("path")
-			.data(json.features)
-			.enter()
-			.append("path")
-			.attr("d", path)
-			.style("stroke", "#fff")
-			.style("stroke-width", "1")
-			.style("fill", function(d) {
-
-			// Get data value
-			var value = d.properties.hbcus;
-
-			if (value) {
-			//If value exists…
-				return color(value);
-			} else {
-			//If value is undefined…
-			return "rgb(213,222,217)";
-			}
-			});
-	});	
-		
-	// Map the cities I have lived in!
-	d3.csv("hbcus-list.csv", function(data) {
-
-		console.log("First line of csv",data[0]);
-		console.log("Indexing place of first line",data[0].place)
-
-		data.forEach(function(d){
-			d.lon = parseInt(d.lon);
-			d.lat = Number(d.lat);
-			d.years = +d.years;
-
-			console.log(d.place);
-		});
-
-		svg.selectAll("circle")
-			.data(data)
-			.enter()
-			.append("circle")
-			.attr("cx", function(d) {
-				console.log(d.lon, d.lat, projection([d.lon, d.lat]));
-				return projection([d.lon, d.lat])[0];
-			})
-			.attr("cy", function(d) {
-				return projection([d.lon, d.lat])[1];
-			})
-			.attr("r", 2)
-				.style("fill", "rgb(217,34,12)")
-				.style("opacity", 0.85)	
-
-			// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
-			// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-			.on("mouseover", function(d) {      
-				div.transition()        
-				.duration(200)      
-				.style("opacity", .9);      
-				div.text(d.place)
-				.style("left", (d3.event.pageX) + "px")     
-				.style("top", (d3.event.pageY - 28) + "px");    
-			})   
-
-			// fade out tooltip on mouse out               
-			.on("mouseout", function(d) {       
-				div.transition()        
-				.duration(500)      
-				.style("opacity", 0);   
-			});
-			});  
-			
-		// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-		var legend = d3.select("body").append("svg")
-			.attr("class", "legend")
-			.attr("width", 140)
-			.attr("height", 200)
-			.selectAll("g")
-			.data(color.domain().slice().reverse())
-			.enter()
-			.append("g")
-			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-			legend.append("rect")
-				.attr("width", 18)
-				.attr("height", 18)
-				.style("fill", color);
-
-			legend.append("text")
-				.data(legendText)
-				.attr("x", 24)
-				.attr("y", 9)
-				.attr("dy", ".35em")
-				.text(function(d) { return d; });
-	});
 </script>
 </body>
 </html>
