@@ -425,14 +425,18 @@ router.get('/website', function(req,res, next) {
 });
 
 router.get('/score', function(req,res, next) {
+    let year = req.query.year;
+    let collectionName = "academicyear"+year;
+
     MongoClient.connect("mongodb+srv://comp895va:dnjn895@hbcu-scoreboard-sjn7a.mongodb.net", function(err, client){
         if (err) {
             console.log(err);
-            res.status(500);
+            res.code(500);
             res.send();
         } else {
+            let output = []
             let db = client.db("scorecard");
-            db.collection('academicyear20182019', function (err, collection) {
+            db.collection(collectionName, function (err, collection) {
                 collection.find({HBCU: "1"}, {
                     projection: {
                         INSTNM: 1, SCORE: 1
@@ -441,15 +445,14 @@ router.get('/score', function(req,res, next) {
                     if (err) {
                         client.close();
                         console.log(err);
-                        res.status(500);
+                        res.code(500);
                         res.send();
                     }
 
-                    output = []
-
                     for (let i = 0; i < result.length; i++) {
                         let inst = {
-                            NAME: result[i].INSTNM, SCORE: result[i].SCORE
+                            NAME: result[i].INSTNM, SCORE: result[i].SCORE,
+                            YEAR: year
                         };
 
                         output.push(inst)
@@ -457,11 +460,12 @@ router.get('/score', function(req,res, next) {
 
                     client.close();
                     output.sort(compare);
-                    res.send(JSON.stringify(output))
+                    res.send(JSON.stringify(output));
                 });
             });
         }
     });
+
 });
 
 function compare(a, b) {
@@ -469,6 +473,10 @@ function compare(a, b) {
     if (b.NAME > a.NAME) return -1;
 
     return 0;
+}
+
+function sendData(collectionName, query, requestedData, scoredYear, req, res, next) {
+
 }
 
 module.exports = router;
