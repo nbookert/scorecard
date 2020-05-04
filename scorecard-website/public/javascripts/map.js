@@ -1,5 +1,5 @@
 function map() {
-    var map = L.map('map-div').setView([39.8283, -98.5795], 4);
+    var map = L.map('map-div').setView([35.8283, -95.5795], 4);
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
