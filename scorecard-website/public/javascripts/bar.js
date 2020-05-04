@@ -28,7 +28,7 @@ function barchart() {
     var url = 'http://localhost:8080/hbcu/institution-data';
 
     // d3.csv("data/hbcus-list.csv").then(function(data){
-        d3.json(url).then(function(data){
+    d3.json(url).then(function(data){
 
         // data.forEach(function(d){
         //     d.years=+d.years;
