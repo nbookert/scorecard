@@ -15,13 +15,14 @@ html
     script(src='https://d3js.org/d3.v5.min.js')
     script(src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js")
     script(src='http://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js')
+    script(src='/javascripts/functions.js')
 
   body
     header Historically Black Colleges and Universities(HBCU) Scorecard
     #left
       #rank
-        | Rank<br>
-        script(src='/javascripts/hbcu.js')
+        | Rank
+        script(src='/javascripts/rank.js')
       #list-div
         | Sorted:
         select(onchange='sortList(this.value);')
@@ -37,7 +38,7 @@ html
         script(src='/javascripts/line.js')
       #bar-stuff
         |             Show:
-        select(onchange='switchData(this.value);')
+        select(onchange='updateBar(this.value);')
           option(value='rank', selected='') median scores
           option(value='abc') SAT scores
           option(value='abc') ACT scores
@@ -52,8 +53,8 @@ html
           script(src='/javascripts/bar.js')
 
     script.
-      show_list();
       compute_hbcu();
+      show_list();
       barchart();
       linegraph();
       map();

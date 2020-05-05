@@ -23,19 +23,22 @@ function show_list(){
             .data(data)
             .enter()
             .append("p")
-            .attr("class",function(d){
+            .attr("class","schoollist")
+            .attr("id",function(d){
                 return d.NAME;
             })
             .append("text")
             .text(function(d){return d.NAME})
             .style("font-size","small")
-            .style("color","black");
-            // .on("mouseover",function(){
-            //     d3.select(this).style("color","green")
-            // })
-            // .on("mouseleave",function(){
+            .style("color","black")
+            .on("mousedown",function(d){
+                d3.selectAll("text").style("background-color","white")
+                d3.select(this).style("background-color","yellow")
+                updateCharts(d.NAME);
+            });
+            // .on("mouseup",function(){
             //     d3.select(this).style("color","black")
-            // });
+            // })
 
     }).catch(function(error){
         console.log(error);
