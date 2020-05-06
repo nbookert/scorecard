@@ -21,13 +21,13 @@ html
     header Historically Black Colleges and Universities(HBCU) Scorecard
     #left
       #rank
-        | Median Score
+        | 
         script(src='/javascripts/rank.js')
       #list-div
-        | Sorted:
-        select(onchange='sortList(this.value);')
-          option(value='abc') Alphabetically
-          option(value='rank', selected='') By Rank
+        | Sorted: By Rank
+        //- select(onchange='sortList(this.value);')
+        //-   option(value='abc') Alphabetically
+        //-   option(value='rank', selected='')
         #full-list
           script(src='/javascripts/list.js')
     #map-div
@@ -53,6 +53,6 @@ html
     script.
       compute_hbcu();
       show_list();
-      barchart('SCORE');
-      linegraph('Rust College');
+      barchart('SCORE',"DEFAULT");
+      linegraph('ALL');
       map();

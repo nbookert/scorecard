@@ -1,16 +1,26 @@
-function switchBar(value){
+function switchBar(feature,){
+// Need to keep the data that's there
     $('#bar-div').empty()
-    barchart(value, "Rust College");
+    let testing = $('#rank').text()
+    let school = $('#rank').text().replace(/[0-9.]/g, '');
+    barchart(feature,school);
+    console.log(testing)
+    console.log(feature,school)
+}
+
+function updateBar(feature,school){
+    $('#bar-div').empty()
+    barchart(feature,school);
 }
 
 function barchart(feature, selected) {
 
-    let tryit = d3.select("#bar-div")
-    test = tryit.node().getBoundingClientRect().width
-    test2 =tryit.node().getBoundingClientRect().height
+    let div_area = d3.select("#bar-div")
+    div_width = div_area.node().getBoundingClientRect().width
+    div_height =div_area.node().getBoundingClientRect().height
     let margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width =  test - margin.left - margin.right,
-        height =  test2 - margin.top - margin.bottom;
+        width =  div_width - margin.left - margin.right,
+        height =  div_height - margin.top - margin.bottom;
 
     let svg = d3.select("#bar-div").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -33,13 +43,29 @@ function barchart(feature, selected) {
     let xMap = function(d) { return x(d.NAME); };
     let yMap = function(d) { return y(d[feature]); };
     let hMap = function(d) { return height - y(d[feature]); };
+    let topten_names =[];
 
     d3.json(url).then(function(data){
-        test_data=data;
-    
-        data.sort(function(a, b) { return a[feature] - b[feature]; });  
-        x.domain(data.map(function(d){return d.NAME}));
-        y.domain([0, d3.max(data, function(d){return d[feature]})]);
+        data.sort(function(a, b) { return b.SCORE - a.SCORE; });
+        topten = data.slice(0,10)
+
+        topten.forEach(function(d){
+            topten_names.push(d.NAME)
+        })
+        let result =  topten_names.indexOf(selected)
+        console.log(result)
+        if(result == -1 && selected != 'DEFAULT'){//Add the selected school to the chart
+            data.forEach(function(d){
+                if(d.NAME == selected){
+                    topten.push(d);
+                }
+            })
+        }
+        console.log(topten);
+
+        topten.sort(function(a, b) { return a[feature] - b[feature]; });  
+        x.domain(topten.map(function(d){return d.NAME}));
+        y.domain([0, d3.max(topten, function(d){return d[feature]})]);
 
         // svg.append("g")
         //     .attr("class", "x axis")
@@ -62,7 +88,7 @@ function barchart(feature, selected) {
             .text("Count");
     
         svg.selectAll(".bar")
-            .data(data)
+            .data(topten)
             .enter().append("rect")
             .attr("class", "bar")
             .attr("x",xMap )
@@ -93,13 +119,13 @@ function barchart(feature, selected) {
     .catch(function(error){
         console.log(error);
     });
-        var Tooltip = d3.select("#div_template")
-            .append("div")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "white")
-            .style("border", "solid")
-            .style("border-width", "2px")
-            .style("border-radius", "5px")
-            .style("padding", "5px")
+        // var Tooltip = d3.select("#div_template")
+        //     .append("div")
+        //     .style("opacity", 0)
+        //     .attr("class", "tooltip")
+        //     .style("background-color", "white")
+        //     .style("border", "solid")
+        //     .style("border-width", "2px")
+        //     .style("border-radius", "5px")
+        //     .style("padding", "5px")
 }

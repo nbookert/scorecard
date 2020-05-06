@@ -3,12 +3,12 @@ function switchLine(school){
     linegraph(school);
 }
 function linegraph(school){
-    let tryit = d3.select("#line")
-    test = tryit.node().getBoundingClientRect().width
-    test2 =tryit.node().getBoundingClientRect().height
+    let div_area = d3.select("#line")
+    div_width = div_area.node().getBoundingClientRect().width
+    div_height =div_area.node().getBoundingClientRect().height
     let margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width =  test - margin.left - margin.right,
-        height =  test2 - margin.top - margin.bottom;
+        width =  div_width - margin.left - margin.right,
+        height =  div_height - margin.top - margin.bottom;
 
     let parseDate = d3.timeParse("%Y");
     let x = d3.scaleTime()
@@ -34,7 +34,10 @@ function linegraph(school){
     var year2 = 'http://localhost:8080/hbcu/score?year=20172018';
     var year3 = 'http://localhost:8080/hbcu/score?year=20182019';
     var year4 = 'http://localhost:8080/hbcu/score?year=20152016';
-    
+    let average=0;
+    let placeholder;
+    let d_year;
+
     Promise.all([
         d3.json(year4),
         d3.json(year),
@@ -42,15 +45,31 @@ function linegraph(school){
         d3.json(year3),
         ]).then(function(data){
         for(let i = 0; i<data.length;i++){
+                let j = 0;
             data[i].forEach(function(d){
-                if(d.NAME == school){
+                if(school =='ALL'){ //Default view for line graph
+                    if(d.SCORE){
+                        if(j==0){
+                            d_year = parseDate(d.YEAR.slice(4))
+                        }
+                        average += d.SCORE;
+                        j++;
+                    }
+                }else{
+                    if(d.NAME == school){
                     d.YEAR = parseDate(d.YEAR.slice(4))
-                    let placeholder = {NAME : d.NAME, SCORE : d.SCORE, YEAR : d.YEAR}
-                    score_data.push(placeholder)
+                    placeholder = {NAME : d.NAME, SCORE : d.SCORE, YEAR : d.YEAR}
+                    }
                 }
-            }) 
+            })
+            if(average > 0){
+                average=average/j
+                placeholder = {SCORE : average, YEAR : d_year}
+                average=0;
+            }
+            score_data.push(placeholder)
         }
-
+        
         x.domain(d3.extent(score_data, function(d){return d.YEAR;}));
         y.domain(d3.extent(score_data, function(d){return d.SCORE;}));
 
@@ -75,7 +94,8 @@ function linegraph(school){
        .attr("class","line")
        .attr("d",line)
        .style("fill","none")
-       .style("stroke","steelblue");
+       .style("stroke","gold")
+       .style("stroke-width","2");
 
     });
 }

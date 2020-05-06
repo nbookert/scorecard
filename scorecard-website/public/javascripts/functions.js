@@ -1,22 +1,4 @@
-function updateCharts(school){
-    updateRank(school);
-    switchLine(school); 
-    switchBar('LONGITUDE')
-    // updateBar(school); //change highlighted bar
-    // updateMap(school); //zooms into the school on the map
-}
 
-function updateRank(school){
-        var url = 'http://localhost:8080/hbcu/score?year=20182019';
-    d3.json(url).then(function(data){
-        data.forEach(function(d) {
-            if(d.NAME == school){
-                d3.select("#rank").select("p")
-                .text(d.SCORE.toFixed(2));
-            }
-        });
-    })
-}
 
 // There has to be a better way to access variables to redraw bar graph
 function updateBar(school){

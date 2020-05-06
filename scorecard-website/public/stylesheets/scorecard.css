@@ -1,33 +1,42 @@
 header{
     text-align: center;
     padding: 5pt;
-    background-color: black;
-    color: gray;
+    background-color: gray;
+    color: white;
+    margin-bottom:5px;
 }
+div{
 
+}
 #left{
 width:10%;
 height:100%;
 float: left;
-padding: 15px;
+padding: 5px;
+margin-right:10px;
+outline-color: gray;
+outline-style: solid;
 }
 #map-div{
     display: inline-block;
     width:55%;
     height:100%;
-    padding-left: 20px;
 }
 #right{
     width:30%;
     height:100%;
     float:right;
-}
+    padding: 10px;
+    outline-color: gray;
+    outline-style: solid;
+} 
 
 /* Left div */
 #rank{
     float: left;
     height:20%;
     width:100%;
+    text-align: center;
 }
 #list-div{
     height: 80%;
@@ -35,7 +44,7 @@ padding: 15px;
     padding-right: 5px;
 }
 #full-list{
-    height:75%;
+    height:90%;
     text-align: left;
     overflow: scroll;
 }
@@ -44,10 +53,12 @@ padding: 15px;
 #line{
     height:50%;
     width:100%;
+    text-align: center;
 }
 #bar-stuff{
     height:50%;
     width:100%;
+    text-align: center;
 }
 #bar-div{
     height:100%;
