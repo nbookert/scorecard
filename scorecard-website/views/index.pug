@@ -18,42 +18,39 @@ html
 
   body
     header Historically Black Colleges and Universities(HBCU) Scorecard
-    #hbcuscore
-      | Rank
-      script(src='/javascripts/hbcu.js')
-    #list-div
-      | Sorted:
-      select(onchange='sortList(this.value);')
-        option(value='abc') Alphabetically
-        option(value='rank', selected='') By Rank
-      #full-list
-        script(src='/javascripts/list.js')
+    #left
+      #rank
+        |
+        script(src='/javascripts/rank.js')
+      #list-div
+        | HBCU List
+        | Sorted: By Rank
+        //- Sorting alphabetically will be added in Future work 
+        #full-list
+          script(src='/javascripts/list.js')
     #map-div
-      | interactive map
       script(src='/javascripts/map.js')
-    #medianscore
+    #right
       // School name
-      #otherscore
+      #line
         script(src='/javascripts/line.js')
       #bar-stuff
+        |             Show:
+        select(onchange='switchBar(this.value);')
+          option(value='SCORE', selected='') Median Scores
+          option(value='SAT_AVG') SAT scores
+          option(value='ACT_AVG') ACT scores
+          option(value='GRAD_RATE') Graduation Rate
+          option(value='ADM_RATE') Acceptance Rate
+          option(value='ENROLL') Student Body Size
+          option(value='TUITIONFEE_OUT') Out of State Tuition
+          option(value='TUITIONFEE_IN') In State Tuition
         #bar-div
           script(src='/javascripts/bar.js')
-        |             Show:
-        select(onchange='switchData(this.value);')
-          option(value='rank', selected='') median scores
-          option(value='abc') SAT scores
-          option(value='abc') ACT scores
-          option(value='abc') Class Size
-          option(value='abc') Graduation Rate
-          option(value='abc') Acceptance Rate
-          option(value='abc') Student Body Size
-          option(value='abc') # of Programs
-          option(value='abc') Out of State Tuition
-          option(value='abc') In State Tuition
 
     script.
+      display_avgScore();
       show_list();
-      compute_hbcu();
-      barchart();
-      linegraph();
+      barchart('SCORE',"DEFAULT");
+      linegraph('ALL');
       map();
