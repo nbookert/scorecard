@@ -1,47 +1,64 @@
 header{
     text-align: center;
     padding: 5pt;
-    background-color: black;
-    color: gray;
+    background-color: gray;
+    color: white;
+    margin-bottom:5px;
 }
+div{
 
-/* Split between two */
-#list-div{
-    float: left;
-    width:20%;
-    height: 75%;
-    text-align: center;
 }
-#full-list{
-    height:80%;
-    text-align: left;
-    overflow: scroll;
+#left{
+width:12.5%;
+height:100%;
+float: left;
+padding: 5px;
+margin-right:10px;
+outline-color: gray;
+outline-style: solid;
 }
 #map-div{
     display: inline-block;
-    width:70%;
-    height:75%;
-    text-align: right;
+    width:55%;
+    height:100%;
 }
-#hbcuscore{
-    float: left;
-    width:10%;
-    height:75%;
-}
-/* Split between two */
-#medianscore{
-    /* float:right; */
-    width:100%;
-    height:75%;
-}
-#otherscore{
+#right{
+    width:30%;
+    height:100%;
     float:right;
-    width:25%;
+    padding: 10px;
+    outline-color: gray;
+    outline-style: solid;
+} 
+
+/* Left div */
+#rank{
+    float: left;
+    height:20%;
+    width:100%;
+    text-align: center;
+}
+#list-div{
+    height: 80%;
+    width: 100%;
+    padding-right: 5px;
+}
+#full-list{
+    height:90%;
+    text-align: left;
+    overflow: scroll;
+}
+
+/* right div */
+#line{
     height:50%;
+    width:100%;
+    text-align: center;
 }
 #bar-stuff{
-    width:75%;
     height:50%;
+    width:100%;
+    text-align: center;
 }
 #bar-div{
     height:100%;

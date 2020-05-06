@@ -1,10 +1,23 @@
-function linegraph(){
-    let tryit = d3.select("#otherscore")
-    test = tryit.node().getBoundingClientRect().width
-    test2 =tryit.node().getBoundingClientRect().height
+function switchLine(school){
+    // updates the line graph to show
+    // the change in the selected school's 
+    // median score from 2015-2016 to 2018-2019
+
+    $('#line').empty()
+    linegraph(school);
+}
+
+function linegraph(school){
+    // draws the line graph for in the line graph area
+    // The default line graph shows the change of the
+    // average scores from 2015-2016 to 2018-2019
+
+    let div_area = d3.select("#line")
+    div_width = div_area.node().getBoundingClientRect().width
+    div_height =div_area.node().getBoundingClientRect().height
     let margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width =  test - margin.left - margin.right,
-        height =  test2 - margin.top - margin.bottom;
+        width =  div_width - margin.left - margin.right,
+        height =  div_height - margin.top - margin.bottom;
 
     let parseDate = d3.timeParse("%Y");
     let x = d3.scaleTime()
@@ -16,49 +29,82 @@ function linegraph(){
     let xAxis = d3.axisBottom(x);
     let yAxis = d3.axisLeft(y);
 
-    let svg = d3.select("#otherscore").append("svg")
+    let svg = d3.select("#line").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     let line =d3.line()
-        .x(function(d){return x(d.SAT_AVG);})
-        .y(function(d){return y(d.ADM_RATE);})
+    .x(function(d){return x(d.YEAR);})
+    .y(function(d){return y(d.SCORE);})
+    let score_data=[]
+    var year = 'http://localhost:8080/hbcu/score?year=20162017';
+    var year2 = 'http://localhost:8080/hbcu/score?year=20172018';
+    var year3 = 'http://localhost:8080/hbcu/score?year=20182019';
+    var year4 = 'http://localhost:8080/hbcu/score?year=20152016';
+    let average=0;
+    let placeholder;
+    let d_year;
 
-    var url = 'http://localhost:8080/hbcu/institution-data';
-
-    d3.json(url).then(function(data){
+    Promise.all([
+        d3.json(year4),
+        d3.json(year),
+        d3.json(year2),
+        d3.json(year3),
+        ]).then(function(data){
+        for(let i = 0; i<data.length;i++){
+                let j = 0;
+            data[i].forEach(function(d){
+                if(school =='ALL'){ //Default view for line graph
+                    if(d.SCORE){
+                        if(j==0){
+                            d_year = parseDate(d.YEAR.slice(4))
+                        }
+                        average += d.SCORE;
+                        j++;
+                    }
+                }else{
+                    if(d.NAME == school){
+                    d.YEAR = parseDate(d.YEAR.slice(4))
+                    placeholder = {NAME : d.NAME, SCORE : d.SCORE, YEAR : d.YEAR}
+                    }
+                }
+            })
+            if(average > 0){
+                average=average/j
+                placeholder = {SCORE : average, YEAR : d_year}
+                average=0;
+            }
+            score_data.push(placeholder)
+        }
         
-        data.forEach(function(d){
-            d.SAT_AVG=parseDate(d.SAT_AVG)
-        })
-        x.domain(d3.extent(data, function(d){return d.SAT_AVG;}));
-        y.domain(d3.extent(data, function(d){return d.ADM_RATE;}));
+        x.domain(d3.extent(score_data, function(d){return d.YEAR;}));
+        y.domain(d3.extent(score_data, function(d){return d.SCORE;}));
 
     svg.append("g")
-        .attr("class","x-axis")
-        .attr("transform","translate(0," + height + ")")
-        .call(xAxis);
+       .attr("class","x-axis")
+       .attr("transform","translate(0," + height + ")")
+       .call(xAxis);
 
     svg.append("g")
-        .attr("class","y-axis")
-        .call(yAxis)
-        .append("text")
-        .attr("transform","rotate(-90)")
-        .attr("y",6)
-        .attr("dy",".71em")
-        .attr("class","label")
-        .style("text-anchor","end")
-        .style("fill","black")
-        .text("Temp")
+       .attr("class","y-axis")
+       .call(yAxis)
+       .append("text")
+       .attr("transform","rotate(-90)")
+       .attr("y",6)
+       .attr("dy",".71em")
+       .attr("class","label")
+       .style("text-anchor","end")
+       .style("fill","black")
 
         svg.append("path")
-        .datum(data)
-        .attr("class","line")
-        .attr("d",line)
-        .style("fill","none")
-        .style("stroke","steelblue");
+       .datum(score_data)
+       .attr("class","line")
+       .attr("d",line)
+       .style("fill","none")
+       .style("stroke","steelblue")
+       .style("stroke-width","2");
 
     });
 }

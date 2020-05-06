@@ -1,5 +1,8 @@
-function map() {
-    var map = L.map('map-div').setView([35.8283, -95.5795], 4);
+
+var map = L.map('map-div').setView([35.8283, -95.5795], 4);
+
+function initiate_map() {
+
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
@@ -7,7 +10,7 @@ function map() {
 
     function getPins(e) {
         bounds = map.getBounds();
-        url = "http://localhost:8080/hbcu/institution-data";
+        url = "http://localhost:8080/hbcu/location";
         $.get(url, pinTheMap, "json")
     }
 
@@ -24,6 +27,7 @@ function map() {
         var markerArray = new Array(data.length)
         for (var i = 0; i < data.length; i++) {
             hbcu = data[i];
+
             markers.addLayer(markerArray[i] = L.marker([hbcu.LATITUDE, hbcu.LONGITUDE]).bindPopup('<a href="' + hbcu.WEBSITE + '" target="_blank">' + hbcu.NAME + '</a>')
             );
         }
@@ -37,4 +41,33 @@ function map() {
     map.whenReady(getPins)
 
 
+}
+
+function map_zoom(institution_name) {
+    let url = "http://localhost:8080/hbcu/institution-data";
+
+    //Connect to MongoDb
+    let xhttp = new XMLHttpRequest();
+    xhttp.open("GET", url, true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(this.response);
+            let index = 0;
+
+            for (let i = 0; i < response.length; i++) {
+                if (response[i].NAME == institution_name) {
+                    index = i;
+                }
+            }
+
+            let latlng = L.latLng(response[index].LATITUDE, response[index].LONGITUDE);
+            let zoom = 16;
+            let pan_options = {animate: true};
+            map.setView(latlng, zoom, pan_options);
+
+
+        }
+    };
+    xhttp.send();
 }
