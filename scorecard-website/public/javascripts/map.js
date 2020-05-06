@@ -9,7 +9,7 @@ function initiate_map() {
 
     function getPins(e) {
         bounds = map.getBounds();
-        url = "http://localhost:8080/hbcu/institution-data";
+        url = "http://localhost:8080/hbcu/location";
         $.get(url, pinTheMap, "json")
     }
 

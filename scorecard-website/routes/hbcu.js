@@ -186,7 +186,7 @@ router.get('/location', function(req,res, next) {
             db.collection('academicyear20182019', function (err, collection) {
                 collection.find({HBCU: "1"}, {
                     projection: {
-                        LATITUDE: 1, LONGITUDE: 1, INSTNM: 1
+                        LATITUDE: 1, LONGITUDE: 1, INSTNM: 1, INSTURL: 1
                     }
                 }).toArray(function (err, result) {
                     if (err) {
@@ -202,6 +202,7 @@ router.get('/location', function(req,res, next) {
                         let inst = {
                             LATITUDE: Number(result[i].LATITUDE),
                             LONGITUDE: Number(result[i].LONGITUDE),
+                            WEBSITE: result[i].INSTURL,
                             NAME: result[i].INSTNM
 
                         };
