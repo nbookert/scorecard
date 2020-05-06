@@ -21,7 +21,7 @@ html
     header Historically Black Colleges and Universities(HBCU) Scorecard
     #left
       #rank
-        | Rank
+        | Median Score
         script(src='/javascripts/rank.js')
       #list-div
         | Sorted:
@@ -38,23 +38,21 @@ html
         script(src='/javascripts/line.js')
       #bar-stuff
         |             Show:
-        select(onchange='updateBar(this.value);')
-          option(value='rank', selected='') median scores
-          option(value='abc') SAT scores
-          option(value='abc') ACT scores
-          option(value='abc') Class Size
-          option(value='abc') Graduation Rate
-          option(value='abc') Acceptance Rate
-          option(value='abc') Student Body Size
-          option(value='abc') # of Programs
-          option(value='abc') Out of State Tuition
-          option(value='abc') In State Tuition
+        select(onchange='switchBar(this.value);')
+          option(value='SCORE', selected='') Median Scores
+          option(value='SAT_AVG') SAT scores
+          option(value='ACT_AVG') ACT scores
+          option(value='GRAD_RATE') Graduation Rate
+          option(value='ADM_RATE') Acceptance Rate
+          option(value='ENROLL') Student Body Size
+          option(value='TUITIONFEE_OUT') Out of State Tuition
+          option(value='TUITIONFEE_IN') In State Tuition
         #bar-div
           script(src='/javascripts/bar.js')
 
     script.
       compute_hbcu();
       show_list();
-      barchart();
-      linegraph();
+      barchart('SCORE');
+      linegraph('Rust College');
       map();

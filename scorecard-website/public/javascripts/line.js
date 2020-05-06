@@ -1,4 +1,8 @@
-function linegraph(){
+function switchLine(school){
+    $('#line').empty()
+    linegraph(school);
+}
+function linegraph(school){
     let tryit = d3.select("#line")
     test = tryit.node().getBoundingClientRect().width
     test2 =tryit.node().getBoundingClientRect().height
@@ -6,7 +10,7 @@ function linegraph(){
         width =  test - margin.left - margin.right,
         height =  test2 - margin.top - margin.bottom;
 
-    let parseDate = d3.timeParse("%x");
+    let parseDate = d3.timeParse("%Y");
     let x = d3.scaleTime()
     .range([0,width]);
 
@@ -23,53 +27,32 @@ function linegraph(){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     let line =d3.line()
-    .x(function(d){return x(d.year);})
-    .y(function(d){return y(d.score);})
-        // .x(function(d){return x(d.SAT_AVG);})
-        // .y(function(d){return y(d.ADM_RATE);})
+    .x(function(d){return x(d.YEAR);})
+    .y(function(d){return y(d.SCORE);})
+    let score_data=[]
+    var year = 'http://localhost:8080/hbcu/score?year=20162017';
+    var year2 = 'http://localhost:8080/hbcu/score?year=20172018';
+    var year3 = 'http://localhost:8080/hbcu/score?year=20182019';
+    var year4 = 'http://localhost:8080/hbcu/score?year=20152016';
+    
+    Promise.all([
+        d3.json(year4),
+        d3.json(year),
+        d3.json(year2),
+        d3.json(year3),
+        ]).then(function(data){
+        for(let i = 0; i<data.length;i++){
+            data[i].forEach(function(d){
+                if(d.NAME == school){
+                    d.YEAR = parseDate(d.YEAR.slice(4))
+                    let placeholder = {NAME : d.NAME, SCORE : d.SCORE, YEAR : d.YEAR}
+                    score_data.push(placeholder)
+                }
+            }) 
+        }
 
-    // var url = 'http://localhost:8080/hbcu/institution-data';
-
-    // d3.json(url).then(function(data){
-        
-    //     data.forEach(function(d){
-    //         d.SAT_AVG=parseDate(d.SAT_AVG)
-    //     })
-    //     x.domain(d3.extent(data, function(d){return d.SAT_AVG;}));
-    //     y.domain(d3.extent(data, function(d){return d.ADM_RATE;}));
-
-    // svg.append("g")
-    //     .attr("class","x-axis")
-    //     .attr("transform","translate(0," + height + ")")
-    //     .call(xAxis);
-
-    // svg.append("g")
-    //     .attr("class","y-axis")
-    //     .call(yAxis)
-    //     .append("text")
-    //     .attr("transform","rotate(-90)")
-    //     .attr("y",6)
-    //     .attr("dy",".71em")
-    //     .attr("class","label")
-    //     .style("text-anchor","end")
-    //     .style("fill","black")
-    //     .text("Temp")
-
-    //     svg.append("path")
-    //     .datum(data)
-    //     .attr("class","line")
-    //     .attr("d",line)
-    //     .style("fill","none")
-    //     .style("stroke","steelblue");
-
-    // });
-    d3.csv("data/test_line.csv").then(function(data){
-
-        data.forEach(function(d){
-           d.year=parseDate(d.year)
-       })
-       x.domain(d3.extent(data, function(d){return d.year;}));
-       y.domain(d3.extent(data, function(d){return d.score;}));
+        x.domain(d3.extent(score_data, function(d){return d.YEAR;}));
+        y.domain(d3.extent(score_data, function(d){return d.SCORE;}));
 
     svg.append("g")
        .attr("class","x-axis")
@@ -86,10 +69,9 @@ function linegraph(){
        .attr("class","label")
        .style("text-anchor","end")
        .style("fill","black")
-       .text("Temp")
 
         svg.append("path")
-       .datum(data)
+       .datum(score_data)
        .attr("class","line")
        .attr("d",line)
        .style("fill","none")

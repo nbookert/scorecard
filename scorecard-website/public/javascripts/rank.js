@@ -1,21 +1,20 @@
-var hbcu =0;
-function compute_hbcu(){
-    let sdata=[]
-    let i =0;
-    var url = 'http://localhost:8080/hbcu/institution-data';
 
+function compute_hbcu(){
+    var url = 'http://localhost:8080/hbcu/institution-data';
+    var hbcu =0, i=0;
     d3.json(url).then(function(data){
         data.forEach(function(d) {
-            if(i=1)
-                hbcu = d.ADM_RATE;
+            if(d.SCORE){
+                hbcu += +d.SCORE;
                 i++;
+            }
         });
-        
+        hbcu=hbcu/i
+
     d3.select("#rank")
     .append("p")
     .append("text")
-    .style("font-size","large")
-    .text(hbcu)
+    .text(hbcu.toFixed(2))
     }).catch(function(error){
         console.log(error);
     });

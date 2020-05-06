@@ -1,9 +1,9 @@
 function updateCharts(school){
-    // let score = 0;
     updateRank(school);
+    switchLine(school); 
+    switchBar('LONGITUDE')
     // updateBar(school); //change highlighted bar
-    // updateLine(school); 
-    updateMap(school); //zooms into the school on the map
+    // updateMap(school); //zooms into the school on the map
 }
 
 function updateRank(school){
@@ -20,6 +20,8 @@ function updateRank(school){
 
 // There has to be a better way to access variables to redraw bar graph
 function updateBar(school){
+    // call this from dropdown box
+    yValue = function(d) { return +d[school];}
     bar_y.domain([d3.min(test_data, yValue)-1, d3.max(test_data, yValue)+1]);
     d3.selectAll(".y axis")
     .call(yAxis)

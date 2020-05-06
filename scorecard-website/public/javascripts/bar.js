@@ -1,15 +1,15 @@
-let bar_y;
-let test_data=[];
-let yValue;
-let yAxis;
-let height;
-function barchart() {
+function switchBar(value){
+    $('#bar-div').empty()
+    barchart(value, "Rust College");
+}
+
+function barchart(feature, selected) {
 
     let tryit = d3.select("#bar-div")
     test = tryit.node().getBoundingClientRect().width
     test2 =tryit.node().getBoundingClientRect().height
     let margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width =  test - margin.left - margin.right;
+        width =  test - margin.left - margin.right,
         height =  test2 - margin.top - margin.bottom;
 
     let svg = d3.select("#bar-div").append("svg")
@@ -18,42 +18,28 @@ function barchart() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    
-    let yvar = "ENROLL";
-    selected = "Rust College";
-    yValue = function(d) { return +d[yvar];}; // data -> value
-    let xValue = function(d) { return +d[NAME];}; // data -> value
-        
     let x = d3.scaleBand()
         .rangeRound([0, width])
         .padding(0.1);
     
-    bar_y = d3.scaleLinear()
+    let y = d3.scaleLinear()
         .range([height, 0]);
     
     let xAxis = d3.axisBottom(x);
-    yAxis = d3.axisLeft(bar_y);
+    let yAxis = d3.axisLeft(y);
 
     var url = 'http://localhost:8080/hbcu/institution-data';
 
-
     let xMap = function(d) { return x(d.NAME); };
-    let yMap = function(d) { return bar_y(d[yvar]); };
-    let hMap = function(d) { return height - bar_y(d[yvar]); };
+    let yMap = function(d) { return y(d[feature]); };
+    let hMap = function(d) { return height - y(d[feature]); };
 
-    // d3.csv("data/hbcus-list.csv").then(function(data){
     d3.json(url).then(function(data){
         test_data=data;
-        // data.forEach(function(d){
-        //     d.years=+d.years;
-        //     d.LATITUDE=parseFloat(d.LATITUDE);
-        //     d.LONGITUDE=parseFloat(d.LONGITUDE);
-        // });
     
-        data.sort(function(a, b) { return a[yvar] - b[yvar]; });  
+        data.sort(function(a, b) { return a[feature] - b[feature]; });  
         x.domain(data.map(function(d){return d.NAME}));
-        // y.domain([d3.min(data, function(d){return d[yvar]})-1, d3.max(data, function(d){return d[yvar]})]);
-        bar_y.domain([d3.min(data, yValue)-1, d3.max(data, yValue)]);
+        y.domain([0, d3.max(data, function(d){return d[feature]})]);
 
         // svg.append("g")
         //     .attr("class", "x axis")
@@ -83,7 +69,7 @@ function barchart() {
             .attr("width", x.bandwidth())
             .attr("y",yMap )
             .attr("height", hMap)
-            .style("fill",function(d){if(d.NAME ==selected){return "red";}  else {return "steelblue";}});
+            .style("fill",function(d){if(d.NAME ==selected){ return "red";}  else { return "steelblue";}});
             // .on("mouseover", function(d) {
             //     Tooltip
             //     .style("opacity", 1)
@@ -91,7 +77,7 @@ function barchart() {
             //     .style("stroke", "black")
             //     .style("opacity", .5)
             //     Tooltip
-            //     .html("Testing " + d[yvar])
+            //     .html("Testing " + d[feature])
             //     .style("left", (d3.event.pageX + 5) + "px")
             //     .style("top", (d3.event.pageY - 28) + "px");
             // })
