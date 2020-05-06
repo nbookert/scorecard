@@ -12,7 +12,7 @@ function sortList(elem){
     }
 };
 function show_list(){
-    var url = 'http://localhost:8080/hbcu/institution-data';
+    var url = 'http://localhost:8080/hbcu/location';
 
         d3.json(url).then(function(data){
         let svg = d3.select("#full-list")
@@ -32,7 +32,8 @@ function show_list(){
             .append("text")
             .text(function(d){return d.NAME})
             .style("font-size","small")
-            .style("color","black");
+            .style("color","black")
+            .on("click", function(d) {map_zoom(d.NAME)});
             // .on("mouseover",function(){
             //     d3.select(this).style("color","green")
             // })

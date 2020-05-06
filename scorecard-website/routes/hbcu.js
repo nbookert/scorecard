@@ -200,8 +200,8 @@ router.get('/location', function(req,res, next) {
 
                     for (let i = 0; i < result.length; i++) {
                         let inst = {
-                            LATITUDE: result[i].LATITUDE,
-                            LONGITUDE: result[i].LONGITUDE,
+                            LATITUDE: Number(result[i].LATITUDE),
+                            LONGITUDE: Number(result[i].LONGITUDE),
                             NAME: result[i].INSTNM
 
                         };
