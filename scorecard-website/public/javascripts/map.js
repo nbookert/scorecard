@@ -26,7 +26,7 @@ function initiate_map() {
         var markerArray = new Array(data.length)
         for (var i = 0; i < data.length; i++) {
             hbcu = data[i];
-            //console.log(hbcu.WEBSITE);
+
             markers.addLayer(markerArray[i] = L.marker([hbcu.LATITUDE, hbcu.LONGITUDE]).bindPopup('<a href="' + hbcu.WEBSITE + '" target="_blank">' + hbcu.NAME + '</a>')
             );
         }
