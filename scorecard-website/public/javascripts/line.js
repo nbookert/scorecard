@@ -103,7 +103,7 @@ function linegraph(school){
        .attr("class","line")
        .attr("d",line)
        .style("fill","none")
-       .style("stroke","gold")
+       .style("stroke","steelblue")
        .style("stroke-width","2");
 
     });

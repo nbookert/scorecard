@@ -33,7 +33,8 @@ function updateCharts(school){
     updateRank(school);
     switchLine(school); 
     updateBar('SCORE', school);
-    // updateMap(school); //zooms into the school on the map
+    map('Rust College');
+    // updateMap(school); //Map will zoom to selected school in future work
 }
 
 function updateRank(school){

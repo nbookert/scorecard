@@ -44,9 +44,6 @@ function barchart(feature, selected) {
 
     var url = 'http://localhost:8080/hbcu/institution-data';
 
-    let xMap = function(d) { return x(d.NAME); };
-    let yMap = function(d) { return y(d[feature]); };
-    let hMap = function(d) { return height - y(d[feature]); };
     let topten_names =[];
 
     d3.json(url).then(function(data){
@@ -89,45 +86,30 @@ function barchart(feature, selected) {
             .style("text-anchor", "end")
             .text("Count");
     
-        svg.selectAll(".bar")
+            let bars = svg.selectAll(".bar")
             .data(topten)
-            .enter().append("rect")
+            .enter().append("g")
             .attr("class", "bar")
-            .attr("x",xMap )
-            .attr("width", x.bandwidth())
-            .attr("y",yMap )
-            .attr("height", hMap)
+            .attr("transform", function(d){
+                return "translate(" + x(d.NAME) + ", " + y(d[feature]) + ")";
+            });
+    
+            bars.append("rect")
+            .attr("width",x.bandwidth())
+            .attr("height",function(d){ return height - y(d[feature]); })
             .style("fill",function(d){if(d.NAME ==selected){ return "red";}  else { return "steelblue";}});
-            // .on("mouseover", function(d) {
-            //     Tooltip
-            //     .style("opacity", 1)
-            //     d3.select(this)
-            //     .style("stroke", "black")
-            //     .style("opacity", .5)
-            //     Tooltip
-            //     .html("Testing " + d[feature])
-            //     .style("left", (d3.event.pageX + 5) + "px")
-            //     .style("top", (d3.event.pageY - 28) + "px");
-            // })
-            // .on("mouseleave",function(d) {
-            //     Tooltip
-            //       .style("opacity", 0)
-            //     d3.select(this)
-            //       .style("stroke", "none")
-            //       .style("opacity", 1)
-            //   });
+    
+            bars.append("text")
+            .style("text-anchor","end")
+            .attr("dx","-.1em")
+            .attr("dy","1.5em")
+            .attr("transform","rotate(-90)")
+            .text(function(d){return d.NAME;})
+        
 
     })
     .catch(function(error){
         console.log(error);
     });
-        // var Tooltip = d3.select("#div_template")
-        //     .append("div")
-        //     .style("opacity", 0)
-        //     .attr("class", "tooltip")
-        //     .style("background-color", "white")
-        //     .style("border", "solid")
-        //     .style("border-width", "2px")
-        //     .style("border-radius", "5px")
-        //     .style("padding", "5px")
+
 }
