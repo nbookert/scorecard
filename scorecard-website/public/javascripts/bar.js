@@ -1,19 +1,23 @@
-function switchBar(feature,){
-// Need to keep the data that's there
+function switchBar(feature){
+    // updates the bar graph to to show 
+    // the selected feature from the dropdown menu 
+
     $('#bar-div').empty()
-    let testing = $('#rank').text()
-    let school = $('#rank').text().replace(/[0-9.]/g, '');
+
+    // This grabs the name of the selected school
+    let school = $('#rank').text().replace(/[0-9.]/g, ''); 
     barchart(feature,school);
-    console.log(testing)
-    console.log(feature,school)
 }
 
 function updateBar(feature,school){
+    // updates the bar graph when a new school
+    // is selected from the list
     $('#bar-div').empty()
     barchart(feature,school);
 }
 
 function barchart(feature, selected) {
+    // draws the bar graph in bar graph area
 
     let div_area = d3.select("#bar-div")
     div_width = div_area.node().getBoundingClientRect().width
@@ -52,16 +56,14 @@ function barchart(feature, selected) {
         topten.forEach(function(d){
             topten_names.push(d.NAME)
         })
-        let result =  topten_names.indexOf(selected)
-        console.log(result)
-        if(result == -1 && selected != 'DEFAULT'){//Add the selected school to the chart
+        let inTopTen =  topten_names.indexOf(selected)
+        if(inTopTen == -1 && selected != 'DEFAULT'){//Add the selected school to the chart
             data.forEach(function(d){
                 if(d.NAME == selected){
                     topten.push(d);
                 }
             })
         }
-        console.log(topten);
 
         topten.sort(function(a, b) { return a[feature] - b[feature]; });  
         x.domain(topten.map(function(d){return d.NAME}));

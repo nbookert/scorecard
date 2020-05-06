@@ -21,13 +21,12 @@ html
     header Historically Black Colleges and Universities(HBCU) Scorecard
     #left
       #rank
-        | 
+        |
         script(src='/javascripts/rank.js')
       #list-div
+        | HBCU List
         | Sorted: By Rank
-        //- select(onchange='sortList(this.value);')
-        //-   option(value='abc') Alphabetically
-        //-   option(value='rank', selected='')
+        //- Sorting alphabetically will be added in Future work 
         #full-list
           script(src='/javascripts/list.js')
     #map-div
@@ -51,7 +50,7 @@ html
           script(src='/javascripts/bar.js')
 
     script.
-      compute_hbcu();
+      display_avgScore();
       show_list();
       barchart('SCORE',"DEFAULT");
       linegraph('ALL');

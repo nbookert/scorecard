@@ -1,22 +1,10 @@
-var sortValue;
-function sortList(elem){
-    sortValue=elem;
-    console.log("I hope this works", sortValue);
-    if(sortValue == "abc"){
-        data.sort(function(a, b) { return a.NAME - b.NAME; });  
-        console.log("Sorting by abc");
-    }else{
-        data.sort(function(a, b) { return b.SCORE - a.SCORE; });  
-        console.log("sorting by rank")
-    }
-};
-
 function show_list(){
-    var url = 'http://localhost:8080/hbcu/institution-data';
+    // creates the list of HBCU schools
+    // sorts by the 2018-2019 median scores
 
+    var url = 'http://localhost:8080/hbcu/institution-data';
         d3.json(url).then(function(data){
-        let svg = d3.select("#full-list")
-        let margin = {top: 20, right: 20, bottom: 30, left: 40};
+            let svg = d3.select("#full-list");
             
             data.sort(function(a, b) { return b.SCORE - a.SCORE; });
 
@@ -37,9 +25,6 @@ function show_list(){
                 d3.select(this).style("background-color","yellow")
                 updateCharts(d.NAME);
             });
-            // .on("mouseup",function(){
-            //     d3.select(this).style("color","black")
-            // })
 
     }).catch(function(error){
         console.log(error);

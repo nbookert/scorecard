@@ -1,8 +1,17 @@
 function switchLine(school){
+    // updates the line graph to show
+    // the change in the selected school's 
+    // median score from 2015-2016 to 2018-2019
+
     $('#line').empty()
     linegraph(school);
 }
+
 function linegraph(school){
+    // draws the line graph for in the line graph area
+    // The default line graph shows the change of the
+    // average scores from 2015-2016 to 2018-2019
+
     let div_area = d3.select("#line")
     div_width = div_area.node().getBoundingClientRect().width
     div_height =div_area.node().getBoundingClientRect().height

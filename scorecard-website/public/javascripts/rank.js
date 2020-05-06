@@ -1,4 +1,7 @@
-function compute_hbcu(){
+function display_avgScore(){
+    // calculates the average median score for HBCUs
+    // Display the result in the appropriate area
+
     var url = 'http://localhost:8080/hbcu/institution-data';
     var hbcu =0, i=0;
     d3.json(url).then(function(data){
@@ -24,15 +27,20 @@ function compute_hbcu(){
 }
 
 function updateCharts(school){
+    // called when a user selects a school
+    // updates the other areas of the page
+
     updateRank(school);
-    // switchLine(school); 
-    updateBar('SCORE', school); //change highlighted bar
-        // barchart('SCORE','Rust College');
-    //- barchart('SCORE',"Albany State University");
+    switchLine(school); 
+    updateBar('SCORE', school);
     // updateMap(school); //zooms into the school on the map
 }
 
 function updateRank(school){
+    // when a user selects a school the
+    // section is updated to show the school 
+    // name and its 2018-2019 scores
+
     var url = 'http://localhost:8080/hbcu/score?year=20182019';
     d3.json(url).then(function(data){
         data.forEach(function(d) {
@@ -42,7 +50,6 @@ function updateRank(school){
                 .text(d.NAME)
                 .append("p")
                 .text(d.SCORE.toFixed(2));
-                console.log("In update Name from data", d.NAME);
             }
         });
     })
