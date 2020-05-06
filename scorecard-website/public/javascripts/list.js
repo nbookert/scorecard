@@ -1,4 +1,5 @@
 function show_list(){
+
     // creates the list of HBCU schools
     // sorts by the 2018-2019 median scores
 
