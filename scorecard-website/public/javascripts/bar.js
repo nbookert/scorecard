@@ -3,7 +3,8 @@ function switchBar(feature){
     // the selected feature from the dropdown menu 
 
     $('#bar-div').empty()
-
+    // Sets dropdown menu back to default
+    $("option[value=SCORE]").attr('selected', 'selected');
     // This grabs the name of the selected school
     let school = $('#rank').text().replace(/[0-9.]/g, ''); 
     barchart(feature,school);
