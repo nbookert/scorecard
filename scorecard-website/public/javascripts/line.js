@@ -80,7 +80,7 @@ function linegraph(school){
         }
         
         x.domain(d3.extent(score_data, function(d){return d.YEAR;}));
-        y.domain(d3.extent(score_data, function(d){return d.SCORE;}));
+        y.domain([0,d3.max(score_data, function(d){return d.SCORE;})]);
 
     svg.append("g")
        .attr("class","x-axis")
