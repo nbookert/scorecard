@@ -21,8 +21,6 @@ function show_list(){
             .style("font-size","small")
             .style("color","black")
             .on("mousedown",function(d){
-                d3.selectAll("text").style("background-color","white")
-                d3.select(this).style("background-color","yellow")
                 updateCharts(d.NAME);
             });
 
