@@ -83,24 +83,24 @@ if __name__ == "__main__":
     db = MongoDBConnect()
 
     # Get the all the institutions from the database
-    all_institutions = db.get_all()
-    all_samples = convert_to_feature_vector(all_institutions)
+    # all_institutions = db.get_all()
+    # all_samples = convert_to_feature_vector(all_institutions)
     # print("Institution Feature Vector Creation Successful")
 
-    hbcus = get_hbcus(all_institutions)
+    # hbcus = get_hbcus(all_institutions)
     # print("Successfully gathered HBCUS")
 
     # Normalize values
-    hbcu_samples = get_hbcu_samples(hbcus, all_samples)
+    # hbcu_samples = get_hbcu_samples(hbcus, all_samples)
     # print("Successfully gathered HBCU Feature Vectors")
 
     # Reduce the features
-    selector = VarianceThreshold(THRESHOLD)
-    selector.fit(hbcu_samples)
+    # selector = VarianceThreshold(THRESHOLD)
+    # selector.fit(hbcu_samples)
     # print("Successfully finished Variance Threshold")
 
     # Insert reduced feature vectors into output variable
-    all_output = selector.transform(all_samples)
+    # all_output = selector.transform(all_samples)
     # print("Successfully finished Transforming all institutions")
 
     # #Get column names and selected columns
@@ -125,6 +125,17 @@ if __name__ == "__main__":
     all_institutions = db.get_all_from_collection(collection_name)
     all_samples = convert_to_feature_vector(all_institutions)
 
+    hbcus = get_hbcus(all_institutions)
+    # print("Successfully gathered HBCUS")
+
+    # Normalize values
+    hbcu_samples = get_hbcu_samples(hbcus, all_samples)
+    # print("Successfully gathered HBCU Feature Vectors")
+
+    # Reduce the features
+    selector = VarianceThreshold(THRESHOLD)
+    selector.fit(hbcu_samples)
+
     all_output = selector.transform(all_samples)
     #print("Successfully finished Transforming all institutions for " + collection_name)
 
@@ -137,6 +148,17 @@ if __name__ == "__main__":
     all_institutions = db.get_all_from_collection(collection_name)
     all_samples = convert_to_feature_vector(all_institutions)
 
+    hbcus = get_hbcus(all_institutions)
+    # print("Successfully gathered HBCUS")
+
+    # Normalize values
+    hbcu_samples = get_hbcu_samples(hbcus, all_samples)
+    # print("Successfully gathered HBCU Feature Vectors")
+
+    # Reduce the features
+    selector = VarianceThreshold(THRESHOLD)
+    selector.fit(hbcu_samples)
+
     all_output = selector.transform(all_samples)
     #print("Successfully finished Transforming all institutions for " + collection_name)
 
@@ -148,6 +170,17 @@ if __name__ == "__main__":
     collection_name = "academicyear20152016"
     all_institutions = db.get_all_from_collection(collection_name)
     all_samples = convert_to_feature_vector(all_institutions)
+
+    hbcus = get_hbcus(all_institutions)
+    # print("Successfully gathered HBCUS")
+
+    # Normalize values
+    hbcu_samples = get_hbcu_samples(hbcus, all_samples)
+    # print("Successfully gathered HBCU Feature Vectors")
+
+    # Reduce the features
+    selector = VarianceThreshold(THRESHOLD)
+    selector.fit(hbcu_samples)
 
     all_output = selector.transform(all_samples)
     #print("Successfully finished Transforming all institutions for " + collection_name)

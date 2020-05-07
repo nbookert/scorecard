@@ -43,6 +43,10 @@ outline-style: solid;
     width: 100%;
     padding-right: 5px;
 }
+#list-sort-div {
+    border-bottom: 1px solid black;
+    text-align: center;
+}
 #full-list{
     height:90%;
     text-align: left;

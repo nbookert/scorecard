@@ -23,8 +23,9 @@ html
         |
         script(src='/javascripts/rank.js')
       #list-div
-        | HBCU List
-        | Sorted: By Rank
+        //| HBCU List
+        #list-sort-div
+          | Sorted: By Rank
         //- Sorting alphabetically will be added in Future work 
         #full-list
           script(src='/javascripts/list.js')
@@ -37,7 +38,7 @@ html
       #bar-stuff
         |             Show:
         select(onchange='switchBar(this.value);')
-          option(value='SCORE', selected='') Median Scores
+          option(value='SCORE', selected='') Scores
           option(value='SAT_AVG') SAT scores
           option(value='ACT_AVG') ACT scores
           option(value='GRAD_RATE') Graduation Rate
